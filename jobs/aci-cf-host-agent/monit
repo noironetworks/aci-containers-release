@@ -1,0 +1,5 @@
+check process aci-cf-host-agent
+  pidfile /var/vcap/sys/run/aci-cf-host-agent/pid
+  start program "/var/vcap/jobs/aci-cf-host-agent/bin/ctl start"
+  stop program "/var/vcap/jobs/aci-cf-host-agent/bin/ctl stop"
+  group vcap

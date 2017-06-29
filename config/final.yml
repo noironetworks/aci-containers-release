@@ -1,0 +1,4 @@
+---
+blobstore:
+   provider: local
+name: aci-containers

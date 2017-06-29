@@ -1,0 +1,10 @@
+{
+  "log-level": "debug",
+  "status-port": 9990,
+  "default-endpoint-group": {"name": "cf-app-default",
+                             "policy-space": "cf0"},
+  "aci-vmm-domain": "ostack",
+  "aci-vmm-controller": "ostack",
+  "aci-vrf": "cf",
+  "aci-vrf-tenant": "common"
+}

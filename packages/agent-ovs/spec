@@ -1,0 +1,11 @@
+---
+name: agent-ovs
+
+dependencies: []
+
+files:
+- agent-ovs/libmodelgbp_1.3.0~trusty_amd64.deb
+- agent-ovs/libopflex_1.3.0~trusty_amd64.deb
+- agent-ovs/libuv1_1.8.0~trusty_amd64.deb
+- agent-ovs/openvswitch-lib_2.4.1~gbp_amd64.deb
+- agent-ovs/agent-ovs_1.3.0~trusty_amd64.deb

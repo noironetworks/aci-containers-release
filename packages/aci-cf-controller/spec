@@ -1,0 +1,7 @@
+---
+name: aci-cf-controller
+
+dependencies: []
+
+files:
+- aci-cf-controller/aci-containers-controller

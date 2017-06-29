@@ -1,0 +1,30 @@
+#!/bin/bash
+
+OVS_BRIDGE=br-int
+ENCAP_IFACE=br-int_vxlan0
+
+case $1 in
+
+  start)
+    dpkg -s openvswitch-switch > /dev/null 2> /dev/null
+    if [ ! $? -eq 0 ]; then
+       sudo apt-get install python-six uuid-runtime
+       sudo dpkg -i /var/vcap/packages/ovs_2.6.0/*.deb
+    fi 
+   
+    sudo service openvswitch-switch start
+ 
+    # Set up OVS bridge - vxlan mode
+    sudo ovs-vsctl --may-exist add-br $OVS_BRIDGE
+    sudo ovs-vsctl --may-exist add-port $OVS_BRIDGE $ENCAP_IFACE -- set Interface $ENCAP_IFACE type=vxlan options:remote_ip=flow options:key=flow options:dst_port=8472
+ 
+    ;;
+
+  stop)
+    sudo service openvswitch-switch stop
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac

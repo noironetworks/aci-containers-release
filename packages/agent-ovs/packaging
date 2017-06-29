@@ -1,0 +1,6 @@
+set -e -x
+
+for d in `ls agent-ovs`
+do
+   cp -a agent-ovs/$d ${BOSH_INSTALL_TARGET}
+done

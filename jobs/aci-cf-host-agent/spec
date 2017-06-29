@@ -1,0 +1,13 @@
+---
+name: aci-cf-host-agent
+
+templates:
+   ctl.erb: bin/ctl
+   host-agent.conf.template: config/host-agent.conf
+   kubeconfig.template: config/kubeconfig
+
+packages:
+- aci-cf-host-agent
+- opflex-cni
+
+properties: {}

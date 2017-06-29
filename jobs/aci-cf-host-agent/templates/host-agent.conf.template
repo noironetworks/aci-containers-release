@@ -1,0 +1,10 @@
+{
+  "log-level": "debug",
+  "node-name": "cell-1",
+  "ovs-db-sock": "/var/run/openvswitch/db.sock",
+  "status-port": 9990,
+  "aci-vmm-domain": "ostack",
+  "aci-vmm-controller": "ostack",
+  "aci-vrf": "cf",
+  "aci-vrf-tenant": "common"
+}

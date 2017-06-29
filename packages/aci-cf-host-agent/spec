@@ -1,0 +1,8 @@
+---
+name: aci-cf-host-agent
+
+dependencies: []
+
+files:
+- aci-cf-host-agent/aci-containers-host-agent
+- aci-cf-host-agent/ovsresync

@@ -1,0 +1,5 @@
+check process ovs
+  with pidfile /var/run/openvswitch/ovs-vswitchd.pid
+  start program "/var/vcap/jobs/ovs/bin/ctl start" with timeout 300 seconds
+  stop program "/var/vcap/jobs/ovs/bin/ctl stop"
+  group vcap

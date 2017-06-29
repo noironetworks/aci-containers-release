@@ -1,0 +1,8 @@
+set -e -x
+
+PKG=opflex-cni
+
+for d in `ls $PKG`
+do
+   cp -a $PKG/$d ${BOSH_INSTALL_TARGET}
+done

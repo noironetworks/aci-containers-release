@@ -1,0 +1,4 @@
+check process agent-ovs matching .*agent_ovs.*
+  start program "/var/vcap/jobs/agent-ovs/bin/ctl start" with timeout 300 seconds
+  stop program "/var/vcap/jobs/agent-ovs/bin/ctl stop"
+  group vcap

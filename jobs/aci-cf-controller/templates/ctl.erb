@@ -1,0 +1,24 @@
+#!/bin/bash
+
+DAEMON_EXEC=/var/vcap/packages/aci-cf-controller/aci-containers-controller
+RUN_DIR=/var/vcap/sys/run/aci-cf-controller
+LOG_DIR=/var/vcap/sys/log/aci-cf-controller
+PIDFILE=${RUN_DIR}/pid
+
+case $1 in
+
+  start)
+    sudo mkdir -p $RUN_DIR $LOG_DIR
+    sudo start-stop-daemon -x $DAEMON_EXEC -c root:root -b -m -p $PIDFILE --start -- -kubeconfig /var/vcap/jobs/aci-cf-controller/config/kubeconfig -config-path /var/vcap/jobs/aci-cf-controller/config/controller.conf -log_dir $LOG_DIR
+ 
+    ;;
+
+  stop)
+    sudo start-stop-daemon --stop -x $DAEMON_EXEC
+ 
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac

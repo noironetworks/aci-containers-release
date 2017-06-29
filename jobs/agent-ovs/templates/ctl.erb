@@ -1,0 +1,65 @@
+#!/bin/bash
+
+INFRA_VLAN=4093
+
+ENCAP_IFACE=br-int_vxlan0
+VMM_POLICY=OpenStack
+VMM_DOMAIN=ostack
+VMM_CONTROLLER=ostack
+AGENT_HOSTNAME=$(cat /var/vcap/instance/name)-$(cat /var/vcap/instance/id)
+UPLINK_IFACE=eth1.$INFRA_VLAN
+
+AGENT_CONF=/etc/opflex-agent-ovs/conf.d/agent_ovs.conf
+
+case $1 in
+
+  start)
+    dpkg -s agent-ovs > /dev/null 2> /dev/null
+    if [ ! $? -eq 0 ]; then
+       for p in 'libboost-chrono1.54.0 libboost-filesystem1.54.0 libboost-iostreams1.54.0 libboost-program-options1.54.0 libboost-random1.54.0 libboost-system1.54.0 libboost-thread1.54.0'
+       do
+          sudo apt-get install $p
+       done
+       sudo dpkg -i /var/vcap/packages/agent-ovs/*.deb
+    fi
+
+    # configure opflex interface
+    ip=`ip -4 address show dev eth1.$INFRA_VLAN 2> /dev/null | grep inet | cut -d/ -f1 | sed -e 's/inet//' -e 's/\s\+//'`
+    if [ -z $ip ]
+    then
+       sudo ip link add link eth1 name eth1.$INFRA_VLAN type vlan id $INFRA_VLAN
+       mac=`ip link show dev eth1.$INFRA_VLAN | grep ether | cut -d'/' -f2 | cut -d' ' -f2`
+       echo "interface \"eth1.$INFRA_VLAN\" {send host-name=gethostname(); send dhcp-client-identifier 01:$mac; }" | sudo tee -a /etc/dhcp/dhclient.conf
+       sudo ip link set dev eth1 up
+       sudo ip link set dev eth1.$INFRA_VLAN up
+       sudo ip route add 224.0.0.0/4 dev eth1.$INFRA_VLAN
+       sudo dhclient -v eth1.$INFRA_VLAN
+    fi 
+
+    if [ ! -f $AGENT_CONF ]
+    then
+       echo "Creating agent-ovs config file"
+       sed -e "s/VMM_POLICY/$VMM_POLICY/g" \
+           -e "s/VMM_DOMAIN/$VMM_DOMAIN/g" \
+           -e "s/VMM_CONTROLLER/$VMM_CONTROLLER/g" \
+           -e "s/HOSTNAME/$AGENT_HOSTNAME/g" \
+           -e "s/ENCAP_IFACE/$ENCAP_IFACE/g" \
+           -e "s/UPLINK_IFACE/$UPLINK_IFACE/g" \
+           -e "s/UPLINK_VLAN/$INFRA_VLAN/g" </var/vcap/jobs/agent-ovs/config/agent-ovs.conf.template >agent-ovs.conf
+       sudo mv agent-ovs.conf $AGENT_CONF
+fi
+   
+    sudo service agent-ovs start
+    sudo service mcast-daemon start
+ 
+    ;;
+
+  stop)
+    sudo service mcast-daemon stop
+    sudo service agent-ovs stop
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+DAEMON_EXEC=/var/vcap/packages/aci-cf-host-agent/aci-containers-host-agent
+RUN_DIR=/var/vcap/sys/run/aci-cf-host-agent
+LOG_DIR=/var/vcap/sys/log/aci-cf-host-agent
+PIDFILE=${RUN_DIR}/pid
+
+NETWORK_META_DIR=/var/vcap/jobs/aci-cf-host-agent/lib
+
+case $1 in
+
+  start)
+    sudo mkdir -p $RUN_DIR $LOG_DIR
+    sudo mkdir -p $NETWORK_META_DIR/cf-cni-network
+    sudo start-stop-daemon -x $DAEMON_EXEC -c root:root -b -m -p $PIDFILE --start -- -kubeconfig /var/vcap/jobs/aci-cf-host-agent/config/kubeconfig -config-path /var/vcap/jobs/aci-cf-host-agent/config/host-agent.conf -log_dir $LOG_DIR -cni-metadata-dir $NETWORK_META_DIR -cni-network cf-cni-network
+ 
+    ;;
+
+  stop)
+    sudo start-stop-daemon --stop -x $DAEMON_EXEC
+ 
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac

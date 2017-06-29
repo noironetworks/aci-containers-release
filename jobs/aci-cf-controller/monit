@@ -1,0 +1,5 @@
+check process aci-cf-controller
+  pidfile /var/vcap/sys/run/aci-cf-controller/pid
+  start program "/var/vcap/jobs/aci-cf-controller/bin/ctl start"
+  stop program "/var/vcap/jobs/aci-cf-controller/bin/ctl stop"
+  group vcap

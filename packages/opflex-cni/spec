@@ -1,0 +1,7 @@
+---
+name: opflex-cni
+
+dependencies: []
+
+files:
+- opflex-cni/opflex-agent-cni

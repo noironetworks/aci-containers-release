@@ -1,0 +1,33 @@
+---
+# Add another interface to certain components and connect them to apic-infra network
+- type: replace
+  path: /instance_groups/name=diego-cell/networks/name=default/default?
+  value: [dns, gateway]
+- type: replace
+  path: /instance_groups/name=diego-cell/networks/-
+  value:
+      name: apic-infra
+# Add jobs for ACI add-ons
+- type: replace
+  path: /releases/name=aci-containers?/version
+  value: latest
+- type: replace
+  path: /instance_groups/name=diego-cell/jobs/-
+  value:
+     name: ovs
+     release: aci-containers
+- type: replace
+  path: /instance_groups/name=diego-cell/jobs/-
+  value:
+     name: agent-ovs
+     release: aci-containers
+- type: replace
+  path: /instance_groups/name=diego-cell/jobs/-
+  value:
+     name: aci-cf-host-agent
+     release: aci-containers
+- type: replace
+  path: /instance_groups/name=diego-bbs/jobs/-
+  value:
+     name: aci-cf-controller
+     release: aci-containers
