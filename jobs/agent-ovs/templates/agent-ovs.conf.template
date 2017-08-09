@@ -4,13 +4,13 @@
     },
 
     "opflex": {
-    "domain": "comp/prov-VMM_POLICY/ctrlr-[VMM_DOMAIN]-VMM_CONTROLLER/sw-InsiemeLSOid",
+    "domain": "comp/prov-VMM_POLICY/ctrlr-[<%= p('apic.vmm_domain') %>]-<%= p('apic.vmm_controller') %>/sw-InsiemeLSOid",
        "name": "HOSTNAME",
        "peers": [
           {"hostname": "10.0.0.30", "port": "8009"}
         ],
        "ssl": {
-          "mode": "enabled",
+          "mode": "encrypted",
           "ca-store": "/etc/ssl/certs/"
        },
        "inspector": {
@@ -32,6 +32,7 @@
     "renderers": {
          "stitched-mode": {
              "ovs-bridge-name": "br-int",
+             "access-bridge-name": "br-access",
 
              "encap": {
                  "vxlan" : {

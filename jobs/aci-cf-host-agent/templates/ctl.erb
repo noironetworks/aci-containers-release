@@ -2,23 +2,37 @@
 
 DAEMON_EXEC=/var/vcap/packages/aci-cf-host-agent/aci-containers-host-agent
 RUN_DIR=/var/vcap/sys/run/aci-cf-host-agent
-LOG_DIR=/var/vcap/sys/log/aci-cf-host-agent
 PIDFILE=${RUN_DIR}/pid
+LOG_DIR=/var/vcap/sys/log/aci-cf-host-agent
+LOG_FILE=$LOG_DIR/aci-cf-host-agent.log
 
 NETWORK_META_DIR=/var/vcap/jobs/aci-cf-host-agent/lib
+
+mkdir -p $LOG_DIR
+mkdir -p $RUN_DIR
+
+exec 2>&1
+exec >> $LOG_FILE
 
 case $1 in
 
   start)
-    sudo mkdir -p $RUN_DIR $LOG_DIR
-    sudo mkdir -p $NETWORK_META_DIR/cf-cni-network
-    sudo start-stop-daemon -x $DAEMON_EXEC -c root:root -b -m -p $PIDFILE --start -- -kubeconfig /var/vcap/jobs/aci-cf-host-agent/config/kubeconfig -config-path /var/vcap/jobs/aci-cf-host-agent/config/host-agent.conf -log_dir $LOG_DIR -cni-metadata-dir $NETWORK_META_DIR -cni-network cf-cni-network
- 
+    echo "--- Starting aci-cf-host-agent, pid $$ at `date` ---"
+    echo "Running as `id`"
+    mkdir -p $NETWORK_META_DIR/cf-cni-network
+    echo $$ > $PIDFILE
+    exec $DAEMON_EXEC -env-type cf \
+       -config-path /var/vcap/jobs/aci-cf-host-agent/config/host-agent.conf \
+       -cni-metadata-dir $NETWORK_META_DIR -cni-network cf-cni-network \
+       >> $LOG_FILE 2>&1
+
     ;;
 
   stop)
-    sudo start-stop-daemon --stop -x $DAEMON_EXEC
- 
+    echo "--- Stopping aci-cf-host-agent at `date` ---"
+    kill -9 `cat $PIDFILE`
+    rm -f $PIDFILE
+
     ;;
 
   *)

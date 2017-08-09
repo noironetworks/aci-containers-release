@@ -4,9 +4,63 @@ name: aci-cf-controller
 templates:
    ctl.erb: bin/ctl
    controller.conf.template: config/controller.conf
-   kubeconfig.template: config/kubeconfig
+   cf.conf.template: config/cf.conf
+   bbs_ca.crt.erb: config/certs/bbs/ca.crt
+   bbs_client.crt.erb: config/certs/bbs/client.crt
+   bbs_client.key.erb: config/certs/bbs/client.key
+   etcd_ca.crt.erb: config/certs/etcd/server-ca.crt
+   etcd_client.crt.erb: config/certs/etcd/client.crt
+   etcd_client.key.erb: config/certs/etcd/client.key
 
 packages:
 - aci-cf-controller
 
-properties: {}
+properties:
+   apic.hosts:
+      description: "Locations of APIC controllers"
+      default: []
+   apic.username:
+      description: "Username for connecting to APIC"
+      default: "admin"
+   apic.password:
+      description: "Password for connecting to APIC"
+   apic.vmm_domain:
+      description: "APIC VMM domain to use"
+      default: "cf"
+   apic.vmm_controller:
+      description: "APIC VMM controller to use"
+      default: "cf-cluster"
+   apic.name_prefix:
+      description: "String to prefix to APIC objct names"
+      default: "cf"
+   apic.policy_tenant:
+      description: "APIC Tenant to create APIC objects in"
+      default: "cf"
+   apic.policy_default_epg:
+      description: "Default APIC endpoint-group to use for apps"
+      default: "default|cf-app-default"
+   apic.policy_vrf_tenant:
+      description: "Tenant of VRF in APIC to use"
+      default: "common"
+   apic.policy_vrf:
+      description: "VRF in APIC to use"
+      default: "cf"
+   bbs.ca_cert:
+      description: "PEM-encoded CA certificate for BBS"
+   bbs.client_cert:
+      description: "PEM-encoded client certificate for BBS"
+   bbs.client_key:
+      description: "PEM-encoded client key for BBS"
+   etcd.ca_cert:
+      description: "PEM-encoded CA certificate for etcd"
+   etcd.client_cert:
+      description: "PEM-encoded client certificate for etcd"
+   etcd.client_key:
+      description: "PEM-encoded client key for etcd"
+   cc_api.url:
+      description: "URL of CloudController API endpoint"
+   cc_api.username:
+      description: "Username to use for connecting to CloudController"
+      default: "admin"
+   cc_api.password:
+      description: "Password to use for connecting to CloudController"

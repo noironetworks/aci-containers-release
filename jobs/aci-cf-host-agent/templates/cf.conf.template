@@ -1,0 +1,8 @@
+{
+  "cell_id": "<%= @spec.id %>",
+
+  "etcd_url": "https://cf-etcd.service.cf.internal:4001",
+  "etcd_client_cert_file": "/var/vcap/jobs/aci-cf-host-agent/config/certs/etcd/client.crt",
+  "etcd_client_key_file": "/var/vcap/jobs/aci-cf-host-agent/config/certs/etcd/client.key",
+  "etcd_ca_cert_file": "/var/vcap/jobs/aci-cf-host-agent/config/certs/etcd/server-ca.crt"
+}

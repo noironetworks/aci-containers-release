@@ -9,4 +9,10 @@ packages:
 - agent-ovs 
 - ovs_2.6.0
 
-properties: {}
+properties:
+   apic.vmm_domain:
+      description: "APIC VMM domain to use"
+      default: "cf"
+   apic.vmm_controller:
+      description: "APIC VMM controller to use"
+      default: "cf-cluster"

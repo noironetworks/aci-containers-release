@@ -7,10 +7,24 @@
   path: /instance_groups/name=diego-cell/networks/-
   value:
       name: apic-infra
+# Enable IPv6 for some components
+- type: replace
+  path: /instance_groups/name=diego-cell/env?/bosh?/ipv6?
+  value:
+     enable: true
+# Make route_emitter register direct routes to containers
+- type: replace
+  path: /instance_groups/name=diego-cell/jobs/name=route_emitter/properties/register_direct_instance_routes?
+  value: true
 # Add jobs for ACI add-ons
 - type: replace
   path: /releases/name=aci-containers?/version
   value: latest
+- type: replace
+  path: /instance_groups/name=diego-cell/jobs/-
+  value:
+     name: network-setup 
+     release: aci-containers
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/-
   value:
@@ -21,13 +35,58 @@
   value:
      name: agent-ovs
      release: aci-containers
+     properties:
+        apic:
+           vmm_domain: "((apic_vmm_domain))"
+           vmm_controller: "((apic_vmm_controller))"
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/-
   value:
      name: aci-cf-host-agent
      release: aci-containers
+     properties:
+        etcd:
+           ca_cert: "((etcd_server.ca))"
+           client_cert: "((etcd_client.certificate))"
+           client_key: "((etcd_client.private_key))"
+        apic:
+           vmm_domain: "((apic_vmm_domain))"
+           vmm_controller: "((apic_vmm_controller))"
+           policy_vrf_tenant: "((apic_policy_vrf_tenant))"
+           policy_vrf: "((apic_policy_vrf))"
 - type: replace
-  path: /instance_groups/name=diego-bbs/jobs/-
+  path: /instance_groups/name=diego-api/jobs/-
   value:
      name: aci-cf-controller
      release: aci-containers
+     properties:
+        apic:
+           hosts: ((apic_hosts))
+           username: "((apic_username))"
+           password: "((apic_password))"
+           vmm_domain: "((apic_vmm_domain))"
+           vmm_controller: "((apic_vmm_controller))"
+           name_prefix: "((apic_name_prefix))"
+           policy_tenant: "((apic_policy_tenant))"
+           policy_default_epg: "((apic_policy_default_epg))"
+           policy_vrf_tenant: "((apic_policy_vrf_tenant))"
+           policy_vrf: "((apic_policy_vrf))"
+        bbs:
+           ca_cert: "((diego_bbs_client.ca))"
+           client_cert: "((diego_bbs_client.certificate))"
+           client_key: "((diego_bbs_client.private_key))"
+        etcd:
+           ca_cert: "((etcd_server.ca))"
+           client_cert: "((etcd_client.certificate))"
+           client_key: "((etcd_client.private_key))"
+        cc_api:
+           url: "https://api.((system_domain))"
+           username: "admin"
+           password: "((cf_admin_password))"
+# Replace CNI plugin
+- type: replace
+  path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_plugin_dir
+  value: /var/vcap/packages/opflex-cni/bin
+- type: replace
+  path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_config_dir
+  value: /var/vcap/jobs/aci-cf-host-agent/config/cni

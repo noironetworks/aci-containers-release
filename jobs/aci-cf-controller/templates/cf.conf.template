@@ -1,0 +1,15 @@
+{
+  "bbs_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/ca.crt",
+  "bbs_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/client.crt",
+  "bbs_client_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/client.key",
+  "bbs_address": "https://bbs.service.cf.internal:8889",
+
+  "cc_api_url": "<%= p("cc_api.url") %>",
+  "cc_api_username": "<%= p("cc_api.username") %>",
+  "cc_api_password": "<%= p("cc_api.password") %>",
+
+  "etcd_url": "https://cf-etcd.service.cf.internal:4001",
+  "etcd_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/etcd/client.crt",
+  "etcd_client_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/etcd/client.key",
+  "etcd_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/etcd/server-ca.crt"
+}

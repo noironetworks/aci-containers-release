@@ -1,0 +1,9 @@
+{
+   "cniVersion": "0.3.1",
+   "supportedVersions": [ "0.3.0", "0.3.1" ],
+   "name": "cf-cni-network",
+   "type": "opflex-agent-cni",
+   "ipam": {"type": "opflex-agent-cni-ipam"},
+   "log-level": "debug",
+   "log-file": "/var/vcap/sys/log/aci-cf-host-agent/opflex-cni.log"
+}

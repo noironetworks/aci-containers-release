@@ -1,0 +1,9 @@
+---
+name: network-setup
+
+templates:
+   pre-start.ctl.erb: bin/pre-start
+
+packages: []
+
+properties: {}

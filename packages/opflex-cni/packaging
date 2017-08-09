@@ -2,7 +2,9 @@ set -e -x
 
 PKG=opflex-cni
 
+mkdir ${BOSH_INSTALL_TARGET}/bin
 for d in `ls $PKG`
 do
-   cp -a $PKG/$d ${BOSH_INSTALL_TARGET}
+   cp -a $PKG/$d ${BOSH_INSTALL_TARGET}/bin/
+   chmod +x ${BOSH_INSTALL_TARGET}/bin/$d
 done

@@ -1,5 +1,5 @@
 check process aci-cf-controller
   pidfile /var/vcap/sys/run/aci-cf-controller/pid
-  start program "/var/vcap/jobs/aci-cf-controller/bin/ctl start"
-  stop program "/var/vcap/jobs/aci-cf-controller/bin/ctl stop"
+  start program = "/var/vcap/jobs/aci-cf-controller/bin/ctl start" as uid "root" as gid "root"
+  stop program = "/var/vcap/jobs/aci-cf-controller/bin/ctl stop" as uid "root"
   group vcap

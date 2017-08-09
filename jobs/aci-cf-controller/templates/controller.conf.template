@@ -1,10 +1,16 @@
 {
   "log-level": "debug",
+  "cfconfig": "/var/vcap/jobs/aci-cf-controller/config/cf.conf",
   "status-port": 9990,
-  "default-endpoint-group": {"name": "cf-app-default",
-                             "policy-space": "cf0"},
-  "aci-vmm-domain": "ostack",
-  "aci-vmm-controller": "ostack",
-  "aci-vrf": "cf",
-  "aci-vrf-tenant": "common"
+  "default-endpoint-group": {"name": "<%= p('apic.policy_default_epg') %>",
+                             "policy-space": "<%= p('apic.policy_tenant') %>"},
+  "apic-hosts": <%= p('apic.hosts') %>,
+  "apic-username": "<%= p('apic.username') %>",
+  "apic-password": "<%= p('apic.password') %>",
+  "aci-vmm-domain": "<%= p('apic.vmm_domain') %>",
+  "aci-vmm-controller": "<%= p('apic.vmm_controller') %>",
+  "aci-prefix": "<%= p('apic.name_prefix') %>",
+  "aci-policy-tenant": "<%= p('apic.policy_tenant') %>",
+  "aci-vrf": "<%= p('apic.policy_vrf') %>",
+  "aci-vrf-tenant": "<%= p('apic.policy_vrf_tenant') %>"
 }

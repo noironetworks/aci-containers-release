@@ -1,0 +1,19 @@
+#!/bin/bash -ex
+
+INFRA_VLAN=4093
+IFACE=eth1
+OPFLEX_IFACE=$IFACE.$INFRA_VLAN
+
+# configure opflex interface
+ip=`ip -4 address show dev $OPFLEX_IFACE 2> /dev/null | grep inet | cut -d/ -f1 | sed -e 's/inet//' -e 's/\s\+//'`
+if [ -z $ip ]
+then
+   echo "Configuring opflex interface $OPFLEX_IFACE"
+   sudo ip link add link $IFACE name $OPFLEX_IFACE type vlan id $INFRA_VLAN
+   mac=`ip link show dev $OPFLEX_IFACE | grep ether | cut -d'/' -f2 | cut -d' ' -f2`
+   echo "interface \"$OPFLEX_IFACE\" {send host-name=gethostname(); send dhcp-client-identifier 01:$mac; }" | sudo tee -a /etc/dhcp/dhclient.conf
+   sudo ip link set dev $IFACE up
+   sudo ip link set dev $OPFLEX_IFACE up
+   sudo ip route add 224.0.0.0/4 dev $OPFLEX_IFACE
+   sudo dhclient -v $OPFLEX_IFACE
+fi

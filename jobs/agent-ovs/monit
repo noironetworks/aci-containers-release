@@ -1,4 +1,5 @@
-check process agent-ovs matching .*agent_ovs.*
-  start program "/var/vcap/jobs/agent-ovs/bin/ctl start" with timeout 300 seconds
-  stop program "/var/vcap/jobs/agent-ovs/bin/ctl stop"
+check process agent-ovs
+  pidfile /var/vcap/sys/run/agent-ovs/pid
+  start program = "/var/vcap/jobs/agent-ovs/bin/ctl start" as uid root as gid vcap with timeout 120 seconds
+  stop program = "/var/vcap/jobs/agent-ovs/bin/ctl stop" as uid root
   group vcap

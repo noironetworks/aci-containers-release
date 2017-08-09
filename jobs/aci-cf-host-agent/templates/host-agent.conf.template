@@ -1,10 +1,28 @@
 {
   "log-level": "debug",
-  "node-name": "cell-1",
+  "cfconfig": "/var/vcap/jobs/aci-cf-host-agent/config/cf.conf",
+  "uplink-iface": "",
   "ovs-db-sock": "/var/run/openvswitch/db.sock",
+  "ep-rpc-sock": "/var/run/aci-containers-ep-rpc.sock",
+  "ep-rpc-sock-perms": "0770",
+  "opflex-endpoint-dir": "/var/lib/opflex-agent-ovs/endpoints/",
+  "opflex-service-dir": "/var/lib/opflex-agent-ovs/services/",
   "status-port": 9990,
-  "aci-vmm-domain": "ostack",
-  "aci-vmm-controller": "ostack",
-  "aci-vrf": "cf",
-  "aci-vrf-tenant": "common"
+  "aci-vmm-domain": "<%= p('apic.vmm_domain') %>",
+  "aci-vmm-controller": "<%= p('apic.vmm_controller') %>",
+  "aci-vrf": "<%= p('apic.policy_vrf') %>",
+  "aci-vrf-tenant": "<%= p('apic.policy_vrf_tenant') %>",
+  "cni-netconfig": [
+     {
+        "routes": [
+           {
+              "gw": "10.255.0.1",
+              "dst": "0.0.0.0/0"
+           }
+        ],
+        "subnet": "10.255.0.0/16",
+        "gateway": "10.255.0.1"
+     }
+  ],
+  "pod-network-ranges": "{\"V4\" : [ {\"start\" : \"10.255.0.2\" , \"end\" : \"10.255.0.129\"} ]}"
 }

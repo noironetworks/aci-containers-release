@@ -4,10 +4,32 @@ name: aci-cf-host-agent
 templates:
    ctl.erb: bin/ctl
    host-agent.conf.template: config/host-agent.conf
-   kubeconfig.template: config/kubeconfig
+   cni.conf.template: config/cni/cni.conf
+   cf.conf.template: config/cf.conf
+   etcd_ca.crt.erb: config/certs/etcd/server-ca.crt
+   etcd_client.crt.erb: config/certs/etcd/client.crt
+   etcd_client.key.erb: config/certs/etcd/client.key
 
 packages:
 - aci-cf-host-agent
 - opflex-cni
 
-properties: {}
+properties:
+  apic.vmm_domain:
+     description: "APIC VMM domain to use"
+     default: "cf"
+  apic.vmm_controller:
+     description: "APIC VMM controller to use"
+     default: "cf-cluster"
+  apic.policy_vrf_tenant:
+     description: "Tenant of VRF in APIC to use"
+     default: "common"
+  apic.policy_vrf:
+     description: "VRF in APIC to use"
+     default: "cf"
+  etcd.ca_cert:
+     description: "PEM-encoded CA certificate for etcd"
+  etcd.client_cert:
+     description: "PEM-encoded client certificate for etcd"
+  etcd.client_key:
+     description: "PEM-encoded client key for etcd"
