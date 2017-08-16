@@ -12,5 +12,10 @@
   "aci-prefix": "<%= p('apic.name_prefix') %>",
   "aci-policy-tenant": "<%= p('apic.policy_tenant') %>",
   "aci-vrf": "<%= p('apic.policy_vrf') %>",
-  "aci-vrf-tenant": "<%= p('apic.policy_vrf_tenant') %>"
+  "aci-vrf-tenant": "<%= p('apic.policy_vrf_tenant') %>",
+  "pod-subnet": "<%= p('network.subnet') %>",
+  "pod-ip-pool": <%=
+      require 'json'
+      JSON.pretty_generate(p('network.ip_pool'))
+   %>
 }

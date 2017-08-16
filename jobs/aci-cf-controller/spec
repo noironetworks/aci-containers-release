@@ -11,6 +11,9 @@ templates:
    etcd_ca.crt.erb: config/certs/etcd/server-ca.crt
    etcd_client.crt.erb: config/certs/etcd/client.crt
    etcd_client.key.erb: config/certs/etcd/client.key
+   network_policy_ca.crt.erb: config/certs/network_policy/ca.crt
+   network_policy_client.crt.erb: config/certs/network_policy/client.crt
+   network_policy_client.key.erb: config/certs/network_policy/client.key
 
 packages:
 - aci-cf-controller
@@ -45,6 +48,14 @@ properties:
    apic.policy_vrf:
       description: "VRF in APIC to use"
       default: "cf"
+   network.subnet:
+      description: "Subnet CIDR for container network in the form <gateway-address>/<prefix-length>"
+      default: "10.255.0.1/16"
+   network.ip_pool:
+      description: "IP address pool to use for containers"
+      default:
+        - start: 10.255.0.2
+          end: 10.255.255.255
    bbs.ca_cert:
       description: "PEM-encoded CA certificate for BBS"
    bbs.client_cert:
@@ -64,3 +75,12 @@ properties:
       default: "admin"
    cc_api.password:
       description: "Password to use for connecting to CloudController"
+   network_policy.ca_cert:
+      description: "PEM-encoded CA certificate for Network Policy"
+   network_policy.client_cert:
+      description: "PEM-encoded client certificate for Network Policy"
+   network_policy.client_key:
+      description: "PEM-encoded client key for Network Policy"
+   network_policy.poll_interval:
+      description: "Polling interval, in seconds, for Network Policy changes"
+      default: 0

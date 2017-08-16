@@ -12,17 +12,20 @@
   "aci-vmm-controller": "<%= p('apic.vmm_controller') %>",
   "aci-vrf": "<%= p('apic.policy_vrf') %>",
   "aci-vrf-tenant": "<%= p('apic.policy_vrf_tenant') %>",
+  <%
+     require 'cidr'
+     cni_cidr = NetAddr::CIDR.create(p('network.subnet'))
+  %>
   "cni-netconfig": [
      {
         "routes": [
            {
-              "gw": "10.255.0.1",
+              "gw": "<%= cni_cidr.ip %>",
               "dst": "0.0.0.0/0"
            }
         ],
-        "subnet": "10.255.0.0/16",
-        "gateway": "10.255.0.1"
+        "subnet": "<%= cni_cidr.to_s() %>",
+        "gateway": "<%= cni_cidr.ip %>"
      }
-  ],
-  "pod-network-ranges": "{\"V4\" : [ {\"start\" : \"10.255.0.2\" , \"end\" : \"10.255.0.129\"} ]}"
+  ]
 }

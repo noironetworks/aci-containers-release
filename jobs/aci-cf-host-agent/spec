@@ -27,6 +27,9 @@ properties:
   apic.policy_vrf:
      description: "VRF in APIC to use"
      default: "cf"
+  network.subnet:
+     description: "Subnet CIDR for container network in the form <gateway-address>/<prefix-length>"
+     default: "10.255.0.1/16"
   etcd.ca_cert:
      description: "PEM-encoded CA certificate for etcd"
   etcd.client_cert:

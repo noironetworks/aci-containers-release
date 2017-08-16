@@ -54,6 +54,8 @@
            vmm_controller: "((apic_vmm_controller))"
            policy_vrf_tenant: "((apic_policy_vrf_tenant))"
            policy_vrf: "((apic_policy_vrf))"
+        network:
+           subnet: "((network_subnet))"
 - type: replace
   path: /instance_groups/name=diego-api/jobs/-
   value:
@@ -71,6 +73,9 @@
            policy_default_epg: "((apic_policy_default_epg))"
            policy_vrf_tenant: "((apic_policy_vrf_tenant))"
            policy_vrf: "((apic_policy_vrf))"
+        network:
+           subnet: "((network_subnet))"
+           ip_pool: "((network_ip_pool))"
         bbs:
            ca_cert: "((diego_bbs_client.ca))"
            client_cert: "((diego_bbs_client.certificate))"
@@ -83,6 +88,10 @@
            url: "https://api.((system_domain))"
            username: "admin"
            password: "((cf_admin_password))"
+        network_policy:
+           ca_cert: "((network_policy_client.ca))"
+           client_cert: "((network_policy_client.certificate))"
+           client_key: "((network_policy_client.private_key))"
 # Replace CNI plugin
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_plugin_dir
