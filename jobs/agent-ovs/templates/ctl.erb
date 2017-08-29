@@ -3,7 +3,7 @@ INFRA_VLAN=4093
 
 ENCAP_IFACE=vxlan0
 VMM_POLICY=OpenStack
-AGENT_HOSTNAME=$(cat /var/vcap/instance/name)-$(cat /var/vcap/instance/id)
+AGENT_HOSTNAME=<%= @spec.name %>-<%= @spec.id %>
 UPLINK_IFACE=eth1.$INFRA_VLAN
 
 AGENT_CONF=/etc/opflex-agent-ovs/conf.d/agent_ovs.conf

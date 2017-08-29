@@ -1,9 +1,9 @@
 aci-cf-controller/aci-containers-controller:
-  size: 66377970
-  sha: d2512b2e28813a9e9f92f6e894624dc325e50a20
+  size: 66381745
+  sha: 080a85953e8506cad61b97a04bbfc143d4ad88b5
 aci-cf-host-agent/aci-containers-host-agent:
-  size: 61971567
-  sha: 2215ca80c73296e0ee6ab544008f4ccd0809575e
+  size: 62072843
+  sha: 3d67839083b870a0ce2e4f7b8feff25c68e57648
 aci-cf-host-agent/ovsresync:
   size: 5275616
   sha: a91ac5976f55384b8b7f1b476addbba30b2c9f10

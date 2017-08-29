@@ -8,6 +8,9 @@ LOG_FILE=$LOG_DIR/aci-cf-host-agent.log
 
 NETWORK_META_DIR=/var/vcap/jobs/aci-cf-host-agent/lib
 
+OVS_BRIDGE=br-int
+CF_NET_OVS_PORT=<%= p('network.cf_net_ovs_port') %>
+
 mkdir -p $LOG_DIR
 mkdir -p $RUN_DIR
 
@@ -21,6 +24,10 @@ case $1 in
     echo "Running as `id`"
     mkdir -p $NETWORK_META_DIR/cf-cni-network
     echo $$ > $PIDFILE
+
+    ovs-vsctl --may-exist add-port $OVS_BRIDGE $CF_NET_OVS_PORT -- set interface $CF_NET_OVS_PORT type=internal
+    sysctl -w net.ipv4.ip_forward=1
+
     exec $DAEMON_EXEC -env-type cf \
        -config-path /var/vcap/jobs/aci-cf-host-agent/config/host-agent.conf \
        -cni-metadata-dir $NETWORK_META_DIR -cni-network cf-cni-network \
