@@ -17,5 +17,7 @@
   "network_policy_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/network_policy/client.crt",
   "network_policy_client_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/network_policy/client.key",
   "network_policy_api_url": "https://policy-server.service.cf.internal:4003",
-  "network_policy_polling_interval_sec": <%= p("network_policy.poll_interval") %>
+  "network_policy_polling_interval_sec": <%= p("network_policy.poll_interval") %>,
+
+  "default_app_profile": "<%= p('apic.default_app_profile') %>"
 }

@@ -48,6 +48,9 @@ properties:
    apic.policy_vrf:
       description: "VRF in APIC to use"
       default: "cf"
+   apic.default_app_profile:
+      description: "Application profile in APIC to use for isolation segments etc"
+      default: "default"
    network.subnet:
       description: "Subnet CIDR for container network in the form <gateway-address>/<prefix-length>"
       default: "10.255.0.1/16"
