@@ -1,4 +1,5 @@
 {
+  "api_path_prefix": "<%= p("api.path_prefix") %>",
   "bbs_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/ca.crt",
   "bbs_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/client.crt",
   "bbs_client_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/client.key",
@@ -7,6 +8,11 @@
   "cc_api_url": "<%= p("cc_api.url") %>",
   "cc_api_username": "<%= p("cc_api.username") %>",
   "cc_api_password": "<%= p("cc_api.password") %>",
+
+  "uaa_url": "<%= p("uaa.url") %>",
+  "uaa_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/uaa/ca.crt",
+  "uaa_client_name": "<%= p("uaa.client_name") %>",
+  "uaa_client_secret": "<%= p("uaa.client_secret") %>",
 
   "etcd_url": "https://cf-etcd.service.cf.internal:4001",
   "etcd_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/etcd/client.crt",
@@ -19,5 +25,14 @@
   "network_policy_api_url": "https://policy-server.service.cf.internal:4003",
   "network_policy_polling_interval_sec": <%= p("network_policy.poll_interval") %>,
 
-  "default_app_profile": "<%= p('apic.default_app_profile') %>"
+  "default_app_profile": "<%= p('apic.default_app_profile') %>",
+
+  "app_vip_pool": <%=
+      require 'json'
+      JSON.pretty_generate(p('network.app_vip_pool'))
+   %>,
+   "app_vip_subnet": <%= p('network.app_vip_subnet') %>,
+
+  "db_type": "<%= p('database.type') %>",
+  "db_dsn": "<%= p('database.username') %>:<%= p('database.password') %>@tcp(<%= p('database.host') %>:<%= p('database.port') %>)/<%= p('database.name') %>"
 }

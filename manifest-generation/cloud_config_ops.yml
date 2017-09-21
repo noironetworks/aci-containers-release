@@ -10,4 +10,4 @@
        gateway: 169.254.0.1
        azs: [z1, z2, z3]
        cloud_properties:
-          name: apic-infra
+          name: ((apic_dvs))/((apic_infra_portgroup))

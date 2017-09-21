@@ -5,6 +5,7 @@ templates:
    ctl.erb: bin/ctl
    controller.conf.template: config/controller.conf
    cf.conf.template: config/cf.conf
+   uaa_ca.crt.erb: config/certs/uaa/ca.crt
    bbs_ca.crt.erb: config/certs/bbs/ca.crt
    bbs_client.crt.erb: config/certs/bbs/client.crt
    bbs_client.key.erb: config/certs/bbs/client.key
@@ -19,6 +20,12 @@ packages:
 - aci-cf-controller
 
 properties:
+   api.port:
+      description: "Port at which API requests are handled"
+      default: 9990
+   api.path_prefix:
+      description: "Prefix of HTTP path at which API requests are expected"
+      default: "/networking-aci"
    apic.hosts:
       description: "Locations of APIC controllers"
       default: []
@@ -48,9 +55,20 @@ properties:
    apic.policy_vrf:
       description: "VRF in APIC to use"
       default: "cf"
+   apic.l3out:
+      description: "L3Out in APIC to use for external connectivity"
+      default: "l3out"
+   apic.l3_ext_networks:
+      description: "External networks in APIC to use for app external IP"
+      default: ["ext-net"]
+   apic.service_phys_domain:
+      description: "Physical domain used for service device clusters"
+      default: "phys"
    apic.default_app_profile:
       description: "Application profile in APIC to use for isolation segments etc"
       default: "default"
+   apic.service_encap:
+      description: "Encap used in APIC for app external-ip device clusters"
    network.subnet:
       description: "Subnet CIDR for container network in the form <gateway-address>/<prefix-length>"
       default: "10.255.0.1/16"
@@ -59,6 +77,26 @@ properties:
       default:
         - start: 10.255.0.2
           end: 10.255.255.255
+   network.app_vip_pool:
+      description: "IP address pool to use for app virtual IPs"
+      default:
+        - start: 10.254.0.2
+          end: 10.254.255.255
+   network.app_vip_subnet:
+      description: "Subnet CIDRs that cover all app virtual IP pools"
+      default: ["10.254.0.0/16"]
+   network.app_external_dynamic_ip_pool:
+      description: "IP address pool to use for dynamically assigned app external IPs"
+   network.app_external_static_ip_pool:
+      description: "IP address pool to use for statically assigned app external IPs"
+   network.node_service_ip_pool:
+      description: "IP address pool to use for cells to support app external IP"
+      default:
+        - start: 10.0.0.2
+          end: 10.0.0.255
+   network.node_service_subnets:
+      description: "Subnet gateway/CIDRs that cover all node service IP pools"
+      default: ["10.0.0.1/24"]
    bbs.ca_cert:
       description: "PEM-encoded CA certificate for BBS"
    bbs.client_cert:
@@ -78,6 +116,14 @@ properties:
       default: "admin"
    cc_api.password:
       description: "Password to use for connecting to CloudController"
+   uaa.url:
+      description: "URL of CloudFoundry UAA API endpoint"
+   uaa.ca_cert:
+      description: "PEM-encoded CA certificate for UAA"
+   uaa.client_name:
+      description: "Name of the UAA client to use"
+   uaa.client_secret:
+      description: "Client secret to use when connecting to UAA"
    network_policy.ca_cert:
       description: "PEM-encoded CA certificate for Network Policy"
    network_policy.client_cert:
@@ -87,3 +133,15 @@ properties:
    network_policy.poll_interval:
       description: "Polling interval, in seconds, for Network Policy changes"
       default: 0
+   database.type:
+      description: "Type of database. Supported values: mysql."
+   database.username:
+      description: "Username for database connection."
+   database.password:
+      description: "Password for database connection."
+   database.host:
+      description: "Host (IP or DNS name) for database server."
+   database.port:
+      description: "Port for database server."
+   database.name:
+      description: "Name of logical database to use."

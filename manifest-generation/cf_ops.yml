@@ -23,6 +23,18 @@
   path: /instance_groups/name=diego-cell/jobs/name=vxlan-policy-agent
 - type: remove
   path: /instance_groups/name=diego-api/jobs/name=silk-controller
+# Add seeded database for ACI add-ons
+- type: replace
+  path: /variables/-
+  value:
+     name: aci_db_admin_password
+     type: password
+- type: replace
+  path: /instance_groups/name=mysql/jobs/name=mysql/properties/cf_mysql/mysql/seeded_databases/-
+  value:
+    name: aci_db
+    username: aci_db_admin
+    password: "((aci_db_admin_password))"
 # Add jobs for ACI add-ons
 - type: replace
   path: /releases/name=aci-containers?/version
@@ -69,6 +81,9 @@
      name: aci-cf-controller
      release: aci-containers
      properties:
+        api:
+           port: ((networking_aci_api_port))
+           path_prefix: "/networking-aci"
         apic:
            hosts: ((apic_hosts))
            username: "((apic_username))"
@@ -80,9 +95,22 @@
            policy_default_epg: "((apic_policy_default_epg))"
            policy_vrf_tenant: "((apic_policy_vrf_tenant))"
            policy_vrf: "((apic_policy_vrf))"
+           l3out: "((apic_l3out))"
+           l3_ext_networks: "((apic_ext_net))"
+           service_phys_domain: "((apic_service_phys_domain))"
+           service_encap: "((apic_service_encap))"
         network:
            subnet: "((network_subnet))"
            ip_pool: "((network_ip_pool))"
+           app_external_dynamic_ip_pool: ((network_app_dynamic_ext_ip_pool))
+           app_external_static_ip_pool: ((network_app_static_ext_ip_pool))
+           node_service_ip_pool: ((network_node_service_ip_pool))
+           node_service_subnets: ((network_node_service_subnets))
+        uaa:
+           url: "https://uaa.service.cf.internal:8443" 
+           ca_cert: "((uaa_ssl.ca))"
+           client_name: "aci-cf-controller"
+           client_secret: "((uaa_clients_aci_cf_controller_secret))"
         bbs:
            ca_cert: "((diego_bbs_client.ca))"
            client_cert: "((diego_bbs_client.certificate))"
@@ -99,6 +127,41 @@
            ca_cert: "((network_policy_client.ca))"
            client_cert: "((network_policy_client.certificate))"
            client_key: "((network_policy_client.private_key))"
+        database:
+           type: mysql
+           username: aci_db_admin
+           password: "((aci_db_admin_password))"
+           host: sql-db.service.cf.internal
+           port: 3306
+           name: aci_db
+# Add aci-cf-controller as UAA client
+- type: replace
+  path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/clients/aci-cf-controller?
+  value:
+     authorities: uaa.resource,cloud_controller.admin_read_only
+     authorized-grant-types: client_credentials
+     secret: "((uaa_clients_aci_cf_controller_secret))"
+- type: replace
+  path: /variables/-
+  value:
+     name: uaa_clients_aci_cf_controller_secret
+     type: password
+# Add a route-registrar to handle ACI-specific API calls
+- type: replace
+  path: /instance_groups/name=diego-api/jobs/-
+  value:
+     name: route_registrar
+     release: routing
+     properties:
+        route_registrar:
+           routes:
+           - name: networking-aci-api
+             port: ((networking_aci_api_port))
+             registration_interval: 20s
+             tags:
+               component: aci
+             uris:
+             - api.((system_domain))/networking-aci
 # Replace CNI plugin
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_plugin_dir

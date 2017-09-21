@@ -1,7 +1,7 @@
 {
   "log-level": "debug",
   "cfconfig": "/var/vcap/jobs/aci-cf-host-agent/config/cf.conf",
-  "uplink-iface": "",
+  "uplink-iface": "eth1",
   "ovs-db-sock": "/var/run/openvswitch/db.sock",
   "ep-rpc-sock": "/var/run/aci-containers-ep-rpc.sock",
   "ep-rpc-sock-perms": "0770",
