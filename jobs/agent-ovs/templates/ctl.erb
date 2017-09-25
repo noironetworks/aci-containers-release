@@ -1,12 +1,4 @@
 #!/bin/bash
-INFRA_VLAN=4093
-
-ENCAP_IFACE=vxlan0
-VMM_POLICY=CloudFoundry
-AGENT_HOSTNAME=<%= @spec.name %>-<%= @spec.id %>
-UPLINK_IFACE=eth1.$INFRA_VLAN
-
-AGENT_CONF=/etc/opflex-agent-ovs/conf.d/agent_ovs.conf
 
 RUN_DIR=/var/vcap/sys/run/agent-ovs
 PIDFILE=${RUN_DIR}/pid
@@ -48,24 +40,12 @@ case $1 in
        service mcast-daemon stop
     fi
 
-    if [ ! -f $AGENT_CONF ]
-    then
-       echo "Creating agent-ovs config file"
-       sed -e "s/VMM_POLICY/$VMM_POLICY/g" \
-           -e "s/HOSTNAME/$AGENT_HOSTNAME/g" \
-           -e "s/ENCAP_IFACE/$ENCAP_IFACE/g" \
-           -e "s/UPLINK_IFACE/$UPLINK_IFACE/g" \
-           -e "s/UPLINK_VLAN/$INFRA_VLAN/g" </var/vcap/jobs/agent-ovs/config/agent-ovs.conf.template >agent-ovs.conf
-       mv agent-ovs.conf $AGENT_CONF
-fi
-
     # Launch mcast-daemon in the backgroud
     /usr/bin/mcast_daemon 2>&1 >>$MCAST_LOG_FILE &
     echo $! > $MCAST_PIDFILE
 
     echo $$ > $PIDFILE
-    exec /usr/bin/agent_ovs -c /etc/opflex-agent-ovs/opflex-agent-ovs.conf \
-       -c /etc/opflex-agent-ovs/conf.d \
+    exec /usr/bin/agent_ovs -c /var/vcap/jobs/agent-ovs/config/opflex-agent-ovs.conf \
        2>&1 >>$LOG_FILE
 
     ;;

@@ -27,6 +27,8 @@ properties:
   apic.policy_vrf:
      description: "VRF in APIC to use"
      default: "cf"
+  apic.service_encap:
+      description: "Encap used in APIC for app external-ip device clusters"
   network.subnet:
      description: "Subnet CIDR for container network in the form <gateway-address>/<prefix-length>"
      default: "10.255.0.1/16"

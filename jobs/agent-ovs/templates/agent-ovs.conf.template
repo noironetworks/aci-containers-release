@@ -4,8 +4,8 @@
     },
 
     "opflex": {
-    "domain": "comp/prov-VMM_POLICY/ctrlr-[<%= p('apic.vmm_domain') %>]-<%= p('apic.vmm_controller') %>/sw-InsiemeLSOid",
-       "name": "HOSTNAME",
+    "domain": "comp/prov-<%= p('apic.vmm_policy') %>/ctrlr-[<%= p('apic.vmm_domain') %>]-<%= p('apic.vmm_controller') %>/sw-InsiemeLSOid",
+       "name": "<%= @spec.name %>-<%= @spec.id %>",
        "peers": [
           {"hostname": "10.0.0.30", "port": "8009"}
         ],
@@ -28,7 +28,9 @@
     "endpoint-sources": {
         "filesystem": ["/var/lib/opflex-agent-ovs/endpoints"]
     },
-
+    "service-sources": {
+        "filesystem": ["/var/lib/opflex-agent-ovs/services"]
+    },
     "renderers": {
          "stitched-mode": {
              "ovs-bridge-name": "br-int",
@@ -36,9 +38,9 @@
 
              "encap": {
                  "vxlan" : {
-                     "encap-iface": "ENCAP_IFACE",
-                     "uplink-iface": "UPLINK_IFACE",
-                     "uplink-vlan": UPLINK_VLAN,
+                     "encap-iface": "<%= p('ovs.encap_interface') %>",
+                     "uplink-iface": "<%= p('opflex.interface') %>.<%= p('apic.infra_vlan') %>",
+                     "uplink-vlan": <%= p('apic.infra_vlan') %>,
                      "remote-ip": "10.0.0.32",
                      "remote-port": 8472
                  }

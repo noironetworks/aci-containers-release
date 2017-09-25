@@ -3,16 +3,28 @@ name: agent-ovs
 
 templates:
    ctl.erb: bin/ctl
-   agent-ovs.conf.template: config/agent-ovs.conf.template
+   agent-ovs.conf.template: config/opflex-agent-ovs.conf
 
 packages:
 - agent-ovs 
 - ovs_2.6.0
 
 properties:
+   apic.vmm_policy:
+      description: "APIC VMM policy to use"
+      default: "CloudFoundry"
    apic.vmm_domain:
       description: "APIC VMM domain to use"
       default: "cf"
    apic.vmm_controller:
       description: "APIC VMM controller to use"
       default: "cf-cluster"
+   apic.infra_vlan:
+      description: "Infra VLAN used by APIC"
+      default: 4093
+   opflex.interface:
+      description: "Network interface to use for OpFlex communication"
+      default: "eth1" 
+   ovs.encap_interface:
+      description: "OVS interface to use for reaching APIC"
+      default: "vxlan0"

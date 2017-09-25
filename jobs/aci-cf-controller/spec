@@ -34,6 +34,9 @@ properties:
       default: "admin"
    apic.password:
       description: "Password for connecting to APIC"
+   apic.vmm_policy:
+      description: "APIC VMM Policy"
+      default: "CloudFoundry"
    apic.vmm_domain:
       description: "APIC VMM domain to use"
       default: "cf"

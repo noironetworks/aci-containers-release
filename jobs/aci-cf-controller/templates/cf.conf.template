@@ -1,4 +1,5 @@
 {
+  "vmm_policy": "<%= p("apic.vmm_policy") %>",
   "api_path_prefix": "<%= p("api.path_prefix") %>",
   "bbs_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/ca.crt",
   "bbs_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/client.crt",

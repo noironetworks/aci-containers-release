@@ -56,6 +56,7 @@
      release: aci-containers
      properties:
         apic:
+           vmm_policy: "((apic_vmm_policy))"
            vmm_domain: "((apic_vmm_domain))"
            vmm_controller: "((apic_vmm_controller))"
 - type: replace
@@ -73,6 +74,7 @@
            vmm_controller: "((apic_vmm_controller))"
            policy_vrf_tenant: "((apic_policy_vrf_tenant))"
            policy_vrf: "((apic_policy_vrf))"
+           service_encap: "((apic_service_encap))"
         network:
            subnet: "((network_subnet))"
 - type: replace
@@ -88,6 +90,7 @@
            hosts: ((apic_hosts))
            username: "((apic_username))"
            password: "((apic_password))"
+           vmm_policy: "((apic_vmm_policy))"
            vmm_domain: "((apic_vmm_domain))"
            vmm_controller: "((apic_vmm_controller))"
            name_prefix: "((apic_name_prefix))"

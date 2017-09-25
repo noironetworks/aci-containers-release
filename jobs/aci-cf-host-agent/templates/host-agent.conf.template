@@ -12,6 +12,12 @@
   "aci-vmm-controller": "<%= p('apic.vmm_controller') %>",
   "aci-vrf": "<%= p('apic.policy_vrf') %>",
   "aci-vrf-tenant": "<%= p('apic.policy_vrf_tenant') %>",
+  <%=
+     m = /vlan-(?<tag>[0-9]+)/.match(p('apic.service_encap'))
+     if m
+        "\"service-vlan\": " + m["tag"] + ","
+     end
+  %>
   <%
      require 'cidr'
      cni_cidr = NetAddr::CIDR.create(p('network.subnet'))
