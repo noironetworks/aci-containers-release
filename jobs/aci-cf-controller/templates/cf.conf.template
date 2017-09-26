@@ -34,6 +34,8 @@
    %>,
    "app_vip_subnet": <%= p('network.app_vip_subnet') %>,
 
-  "db_type": "<%= p('database.type') %>",
-  "db_dsn": "<%= p('database.username') %>:<%= p('database.password') %>@tcp(<%= p('database.host') %>:<%= p('database.port') %>)/<%= p('database.name') %>"
+   "cf_net_interface_address": "<%= p('network.cf_net_ip_address') %>",
+
+   "db_type": "<%= p('database.type') %>",
+   "db_dsn": "<%= p('database.username') %>:<%= p('database.password') %>@tcp(<%= p('database.host') %>:<%= p('database.port') %>)/<%= p('database.name') %>"
 }
