@@ -3,6 +3,10 @@
 INFRA_VLAN=4093
 IFACE=eth1
 OPFLEX_IFACE=$IFACE.$INFRA_VLAN
+MTU=1600
+
+# set interface MTU to allow for vxlan headers
+sudo ip link set dev $IFACE mtu $MTU
 
 # configure opflex interface
 ip=`ip -4 address show dev $OPFLEX_IFACE 2> /dev/null | grep inet | cut -d/ -f1 | sed -e 's/inet//' -e 's/\s\+//'`
@@ -14,6 +18,7 @@ then
    echo "interface \"$OPFLEX_IFACE\" {send host-name=gethostname(); send dhcp-client-identifier 01:$mac; }" | sudo tee -a /etc/dhcp/dhclient.conf
    sudo ip link set dev $IFACE up
    sudo ip link set dev $OPFLEX_IFACE up
+   sudo ip link set dev $OPFLEX_IFACE mtu $MTU
    sudo ip route add 224.0.0.0/4 dev $OPFLEX_IFACE
    sudo dhclient -v $OPFLEX_IFACE
 fi

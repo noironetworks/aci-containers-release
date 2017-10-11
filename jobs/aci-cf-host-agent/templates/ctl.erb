@@ -6,7 +6,7 @@ PIDFILE=${RUN_DIR}/pid
 LOG_DIR=/var/vcap/sys/log/aci-cf-host-agent
 LOG_FILE=$LOG_DIR/aci-cf-host-agent.log
 
-NETWORK_META_DIR=/var/vcap/jobs/aci-cf-host-agent/lib
+NETWORK_META_DIR=/var/lib/aci-cf-host-agent
 
 OVS_BRIDGE=br-int
 CF_NET_OVS_PORT=<%= p('network.cf_net_ovs_port') %>
@@ -23,6 +23,7 @@ case $1 in
     echo "--- Starting aci-cf-host-agent, pid $$ at `date` ---"
     echo "Running as `id`"
     mkdir -p $NETWORK_META_DIR/cf-cni-network
+    echo "CNI metadata directory: $NETWORK_META_DIR/cf-cni-network"
     echo $$ > $PIDFILE
 
     ovs-vsctl --may-exist add-port $OVS_BRIDGE $CF_NET_OVS_PORT -- set interface $CF_NET_OVS_PORT type=internal
