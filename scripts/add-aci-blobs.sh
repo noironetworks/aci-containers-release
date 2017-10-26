@@ -5,7 +5,6 @@ DIR=${1-.}
 bosh add-blob ${DIR}/aci-containers-controller aci-cf-controller/aci-containers-controller
 
 bosh add-blob ${DIR}/aci-containers-host-agent aci-cf-host-agent/aci-containers-host-agent
-bosh add-blob ${DIR}/ovsresync aci-cf-host-agent/ovsresync
 
 bosh add-blob ${DIR}/agent-ovs_1.5.0*~trusty_amd64.deb agent-ovs/agent-ovs_1.5.0~trusty_amd64.deb
 bosh add-blob ${DIR}/libmodelgbp_1.5.0*~trusty_amd64.deb agent-ovs/libmodelgbp_1.5.0~trusty_amd64.deb

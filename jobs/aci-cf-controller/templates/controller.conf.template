@@ -7,6 +7,7 @@
   "apic-hosts": <%= p('apic.hosts') %>,
   "apic-username": "<%= p('apic.username') %>",
   "apic-password": "<%= p('apic.password') %>",
+  "aci-vmm-type": "CloudFoundry",
   "aci-vmm-domain": "<%= p('apic.vmm_domain') %>",
   "aci-vmm-controller": "<%= p('apic.vmm_controller') %>",
   "aci-prefix": "<%= p('apic.name_prefix') %>",
@@ -17,7 +18,7 @@
   "aci-ext-networks": <%= p('apic.l3_ext_networks') %>,
   "aci-service-phys-dom": "<%= p('apic.service_phys_domain') %>",
   "aci-service-encap": "<%= p('apic.service_encap') %>",
-  "pod-subnet": "<%= p('network.subnet') %>",
+  "pod-subnets": ["<%= p('network.subnet') %>"],
   "pod-ip-pool": <%=
       require 'json'
       JSON.pretty_generate(p('network.ip_pool'))

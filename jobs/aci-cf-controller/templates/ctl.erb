@@ -20,7 +20,7 @@ case $1 in
     echo "--- Starting aci-cf-controller, pid $$ at `date` ---"
     echo "Running as `id`"
     echo $$ > $PIDFILE
-    exec $DAEMON_EXEC -env-type cf \
+    exec $DAEMON_EXEC \
         -config-path /var/vcap/jobs/aci-cf-controller/config/controller.conf \
         >> $LOG_FILE 2>&1
 

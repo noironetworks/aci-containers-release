@@ -5,5 +5,6 @@
    "type": "opflex-agent-cni",
    "ipam": {"type": "opflex-agent-cni-ipam"},
    "log-level": "debug",
-   "log-file": "/var/vcap/sys/log/aci-cf-host-agent/opflex-cni.log"
+   "log-file": "/var/vcap/sys/log/aci-cf-host-agent/opflex-cni.log",
+   "domain-type": "CloudFoundry"
 }
