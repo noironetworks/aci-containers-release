@@ -23,17 +23,9 @@ case $1 in
     if [ ! $? -eq 0 ]; then
        echo "agent-ovs package not installed"
 
-       boost_pkg='libboost-system1.54.0 libboost-chrono1.54.0 libboost-filesystem1.54.0 libboost-iostreams1.54.0 libboost-program-options1.54.0 libboost-random1.54.0 libboost-thread1.54.0'
+       boost_pkg='libboost-system1.54.0 libboost-chrono1.54.0 libboost-filesystem1.54.0 libboost-iostreams1.54.0 libboost-program-options1.54.0 libboost-random1.54.0 libboost-thread1.54.0 libnetfilter-conntrack3 libmnl0'
        echo "Installing $boost_pkg"
        apt-get install $boost_pkg
-
-       pushd /var/vcap/packages/agent-ovs/
-       for p in http://launchpadlibrarian.net/173842835/libnl-nf-3-200_3.2.24-2_amd64.deb http://launchpadlibrarian.net/173842830/libnl-3-200_3.2.24-2_amd64.deb http://launchpadlibrarian.net/173842836/libnl-route-3-200_3.2.24-2_amd64.deb http://launchpadlibrarian.net/173842833/libnl-genl-3-200_3.2.24-2_amd64.deb
-       do
-          echo "Downloading $p"
-          wget -N $p
-       done
-       popd
 
        dpkg -i /var/vcap/packages/agent-ovs/*.deb
        service agent-ovs stop
