@@ -5,6 +5,7 @@ templates:
    ctl.erb: bin/ctl
    controller.conf.template: config/controller.conf
    cf.conf.template: config/cf.conf
+   apic_user.key.erb: config/certs/apic/user.key
    uaa_ca.crt.erb: config/certs/uaa/ca.crt
    bbs_ca.crt.erb: config/certs/bbs/ca.crt
    bbs_client.crt.erb: config/certs/bbs/client.crt
@@ -32,6 +33,8 @@ properties:
    apic.username:
       description: "Username for connecting to APIC"
       default: "admin"
+   apic.user_private_key:
+      description: "PEM encoded private key of user for connecting to APIC"
    apic.password:
       description: "Password for connecting to APIC"
    apic.vmm_policy:

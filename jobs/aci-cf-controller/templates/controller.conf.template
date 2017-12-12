@@ -6,7 +6,11 @@
                              "policy-space": "<%= p('apic.policy_tenant') %>"},
   "apic-hosts": <%= p('apic.hosts') %>,
   "apic-username": "<%= p('apic.username') %>",
-  "apic-password": "<%= p('apic.password') %>",
+  <% key = p('apic.user_private_key', '')
+     if key.start_with?("-----BEGIN PRIVATE KEY-----") %>
+  "apic-private-key-path": "/var/vcap/jobs/aci-cf-controller/config/certs/apic/user.key",
+  <% end %>
+  "apic-password": "<%= p('apic.password', '') %>",
   "aci-vmm-type": "CloudFoundry",
   "aci-vmm-domain": "<%= p('apic.vmm_domain') %>",
   "aci-vmm-controller": "<%= p('apic.vmm_controller') %>",

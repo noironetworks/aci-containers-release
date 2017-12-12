@@ -89,7 +89,9 @@
         apic:
            hosts: ((apic_hosts))
            username: "((apic_username))"
-           password: "((apic_password))"
+           user_private_key: ((apic_private_key))
+           # Uncomment next line to use password authentication
+           # password: "((apic_password))"
            vmm_policy: "((apic_vmm_policy))"
            vmm_domain: "((apic_vmm_domain))"
            vmm_controller: "((apic_vmm_controller))"
