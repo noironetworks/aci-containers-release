@@ -11,6 +11,7 @@
   "aci-vmm-type": "CloudFoundry",
   "aci-vmm-domain": "<%= p('apic.vmm_domain') %>",
   "aci-vmm-controller": "<%= p('apic.vmm_controller') %>",
+  "encap-type": "<%= p('apic.encap_type') %>",
   "aci-vrf": "<%= p('apic.policy_vrf') %>",
   "aci-vrf-tenant": "<%= p('apic.policy_vrf_tenant') %>",
   <%=

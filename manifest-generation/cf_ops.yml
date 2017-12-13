@@ -59,6 +59,7 @@
            vmm_policy: "((apic_vmm_policy))"
            vmm_domain: "((apic_vmm_domain))"
            vmm_controller: "((apic_vmm_controller))"
+           encap_type: ((apic_encap_type))
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/-
   value:
@@ -72,6 +73,7 @@
         apic:
            vmm_domain: "((apic_vmm_domain))"
            vmm_controller: "((apic_vmm_controller))"
+           encap_type: ((apic_encap_type))
            policy_vrf_tenant: "((apic_policy_vrf_tenant))"
            policy_vrf: "((apic_policy_vrf))"
            service_encap: "((apic_service_encap))"

@@ -21,6 +21,9 @@ properties:
   apic.vmm_controller:
      description: "APIC VMM controller to use"
      default: "cf-cluster"
+  apic.encap_type:
+     description: "Type of encapsulation to use for uplink; either vlan or vxlan"
+     default: vxlan
   apic.policy_vrf_tenant:
      description: "Tenant of VRF in APIC to use"
      default: "common"

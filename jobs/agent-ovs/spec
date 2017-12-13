@@ -19,6 +19,9 @@ properties:
    apic.vmm_controller:
       description: "APIC VMM controller to use"
       default: "cf-cluster"
+   apic.encap_type:
+     description: "Type of encapsulation to use for uplink; either vlan or vxlan"
+     default: vxlan
    apic.infra_vlan:
       description: "Infra VLAN used by APIC"
       default: 4093
@@ -27,4 +30,3 @@ properties:
       default: "eth1" 
    ovs.encap_interface:
       description: "OVS interface to use for reaching APIC"
-      default: "vxlan0"

@@ -37,13 +37,22 @@
              "access-bridge-name": "br-access",
 
              "encap": {
+             <%
+                encap_type = p('apic.encap_type')
+                if encap_type == "vxlan"
+             %>
                  "vxlan" : {
-                     "encap-iface": "<%= p('ovs.encap_interface') %>",
+                     "encap-iface": "<%= p('ovs.encap_interface', 'vxlan0') %>",
                      "uplink-iface": "<%= p('opflex.interface') %>.<%= p('apic.infra_vlan') %>",
                      "uplink-vlan": <%= p('apic.infra_vlan') %>,
                      "remote-ip": "10.0.0.32",
                      "remote-port": 8472
                  }
+             <% elsif encap_type == "vlan" %>
+                 "vlan" : {
+                     "encap-iface": "<%= p('opflex.interface') %>"
+                 }
+             <% end %>
              },
              "forwarding": {
                  "virtual-router": {
