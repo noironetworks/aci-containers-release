@@ -23,6 +23,10 @@
   path: /instance_groups/name=diego-cell/jobs/name=vxlan-policy-agent
 - type: remove
   path: /instance_groups/name=diego-api/jobs/name=silk-controller
+# Limit aci-cf-controller to single instance till we support HA
+- type: replace
+  path: /instance_groups/name=diego-api/instances
+  value: 1
 # Add seeded database for ACI add-ons
 - type: replace
   path: /variables/-
@@ -30,7 +34,7 @@
      name: aci_db_admin_password
      type: password
 - type: replace
-  path: /instance_groups/name=mysql/jobs/name=mysql/properties/cf_mysql/mysql/seeded_databases/-
+  path: /instance_groups/name=database/jobs/name=mysql/properties/cf_mysql/mysql/seeded_databases/-
   value:
     name: aci_db
     username: aci_db_admin
@@ -42,7 +46,7 @@
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/-
   value:
-     name: network-setup 
+     name: network-setup
      release: aci-containers
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/-
@@ -114,7 +118,7 @@
            node_service_ip_pool: ((network_node_service_ip_pool))
            node_service_subnets: ((network_node_service_subnets))
         uaa:
-           url: "https://uaa.service.cf.internal:8443" 
+           url: "https://uaa.service.cf.internal:8443"
            ca_cert: "((uaa_ssl.ca))"
            client_name: "aci-cf-controller"
            client_secret: "((uaa_clients_aci_cf_controller_secret))"
@@ -176,3 +180,134 @@
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_config_dir
   value: /var/vcap/jobs/aci-cf-host-agent/config/cni
+# Deploy etcd till we support a different way for controller-to-agent communication
+- type: replace
+  path: /instance_groups/name=etcd?
+  value:
+    name: etcd
+    azs: ["z1"]
+    instances: 3
+    persistent_disk_type: 5GB
+    vm_type: minimal
+    stemcell: default
+    update:
+      serial: true
+      max_in_flight: 1
+    networks:
+    - name: default
+    jobs:
+    - name: consul_agent
+      release: consul
+      consumes:
+        consul_common: {from: consul_common_link}
+        consul_server: nil
+        consul_client: {from: consul_client_link}
+      properties:
+        consul:
+          agent:
+            services:
+              etcd:
+                name: cf-etcd
+    - name: etcd
+      release: etcd
+      consumes:
+        etcd: nil
+      properties:
+        etcd:
+          advertise_urls_dns_suffix: cf-etcd.service.cf.internal
+          cluster:
+          - instances: 3
+            name: etcd
+          peer_require_ssl: true
+          require_ssl: true
+          ca_cert: "((etcd_client.ca))"
+          client_cert: "((etcd_client.certificate))"
+          client_key: "((etcd_client.private_key))"
+          server_cert: "((etcd_server.certificate))"
+          server_key: "((etcd_server.private_key))"
+          peer_ca_cert: "((etcd_peer.ca))"
+          peer_cert: "((etcd_peer.certificate))"
+          peer_key: "((etcd_peer.private_key))"
+    - name: etcd_metrics_server
+      release: etcd
+      properties:
+        etcd_metrics_server:
+          etcd:
+            dns_suffix: cf-etcd.service.cf.internal
+            require_ssl: true
+            ca_cert: "((etcd_server.ca))"
+            client_cert: "((etcd_client.certificate))"
+            client_key: "((etcd_client.private_key))"
+- type: replace
+  path: /variables/name=etcd_ca?
+  value:
+    name: etcd_ca
+    type: certificate
+    options:
+      is_ca: true
+      common_name: etcdCA
+- type: replace
+  path: /variables/name=etcd_server?
+  value:
+    name: etcd_server
+    type: certificate
+    options:
+      ca: etcd_ca
+      common_name: etcd.service.cf.internal
+      alternative_names:
+      - "*.etcd.service.cf.internal"
+      - etcd.service.cf.internal
+      - "*.cf-etcd.service.cf.internal"
+      - cf-etcd.service.cf.internal
+      extended_key_usage:
+      - server_auth
+- type: replace
+  path: /variables/name=etcd_client?
+  value:
+    name: etcd_client
+    type: certificate
+    options:
+      ca: etcd_ca
+      common_name: clientName
+      extended_key_usage:
+      - client_auth
+- type: replace
+  path: /variables/name=etcd_peer_ca?
+  value:
+    name: etcd_peer_ca
+    type: certificate
+    options:
+      is_ca: true
+      common_name: peerCA
+- type: replace
+  path: /variables/name=etcd_peer?
+  value:
+    name: etcd_peer
+    type: certificate
+    options:
+      ca: etcd_peer_ca
+      common_name: etcd.service.cf.internal
+      alternative_names:
+      - "*.etcd.service.cf.internal"
+      - etcd.service.cf.internal
+      - "*.cf-etcd.service.cf.internal"
+      - cf-etcd.service.cf.internal
+      extended_key_usage:
+      - client_auth
+      - server_auth
+- type: replace
+  path: /releases/name=etcd?
+  value:
+    name: etcd
+    url: https://bosh.io/d/github.com/cloudfoundry-incubator/etcd-release?v=117
+    version: "117"
+    sha1: 670bf17cea0e6e56bdac33956545b3e302062521
+# Add Consul DNS name to the tcp-router instance group
+- type: replace
+  path: /instance_groups/name=tcp-router/jobs/name=consul_agent/properties?/consul?/agent?/services?
+  value:
+    tcp-router:
+      check:
+        name: "pid_check"
+        script: "pidof cf-tcp-router"
+        interval: "10s"

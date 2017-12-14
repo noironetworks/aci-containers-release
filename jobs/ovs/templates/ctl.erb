@@ -26,7 +26,7 @@ case $1 in
    
     service openvswitch-switch start
  
-    # Set up OVS bridge - vxlan mode
+    # Set up OVS bridges
     ovs-vsctl --may-exist add-br $OVS_BRIDGE
     ovs-vsctl --may-exist add-br $OVS_ACCESS_BRIDGE
  
