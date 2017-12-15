@@ -102,6 +102,7 @@
            vmm_domain: "((apic_vmm_domain))"
            vmm_controller: "((apic_vmm_controller))"
            name_prefix: "((apic_name_prefix))"
+           default_app_profile: "((apic_app_profile))"
            policy_tenant: "((apic_policy_tenant))"
            policy_default_epg: "((apic_policy_default_epg))"
            policy_vrf_tenant: "((apic_policy_vrf_tenant))"
