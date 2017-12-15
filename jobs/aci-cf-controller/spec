@@ -19,6 +19,7 @@ templates:
 
 packages:
 - aci-cf-controller
+- apic-host-report
 
 properties:
    api.port:

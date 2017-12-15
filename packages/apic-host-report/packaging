@@ -1,0 +1,9 @@
+set -e -x
+
+PKG=apic-host-report
+
+for f in `ls $PKG`
+do
+   cp -a $PKG/$f ${BOSH_INSTALL_TARGET}
+   chmod +x ${BOSH_INSTALL_TARGET}/$f
+done

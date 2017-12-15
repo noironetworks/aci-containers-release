@@ -13,6 +13,7 @@ templates:
 packages:
 - aci-cf-host-agent
 - opflex-cni
+- apic-host-report
 
 properties:
   apic.vmm_domain:

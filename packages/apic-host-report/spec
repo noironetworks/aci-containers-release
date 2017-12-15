@@ -1,0 +1,7 @@
+---
+name: apic-host-report
+
+dependencies: []
+
+files:
+- apic-host-report/apic-host-report.sh
