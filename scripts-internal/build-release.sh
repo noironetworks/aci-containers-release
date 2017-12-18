@@ -20,15 +20,17 @@ mkdir -p $STAGE_DIR/release
 bosh reset-release
 bash scripts-internal/add-aci-blobs.sh $DIST_TMP
 export VERSION=$(git describe --tags)
-bosh create-release --version $VERSION --tarball $STAGE_DIR/release/aci-containers-release-$VERSION.tar.gz --force
+export RELEASE_FILE=aci-containers-release-$VERSION.tar.gz
+bosh create-release --version $VERSION --tarball $RELEASE_FILE --force
+CHKSUM=$(md5sum $RELEASE_FILE | cut -d' ' -f 1)
 cp config/blobs.yml config_blobs.yml
 
 cp -r -a scripts $STAGE_DIR/
 cp -r -a manifest-generation $STAGE_DIR/
+mv $RELEASE_FILE $STAGE_DIR/release/
 cp -a $DIST_TMP/acc-provision*.deb $STAGE_DIR/
 
 tar -cvzf $PACKAGE -C $STAGE_DIR .
-CHKSUM=$(md5sum $PACKAGE | cut -d' ' -f 1)
 
 COMMIT=$(git rev-parse HEAD)
 if [ -z "$GIT_BRANCH" ]; then
@@ -46,7 +48,7 @@ module:
       branch: $BRANCH
       commit: $COMMIT
     packages
-    - name: $PACKAGE
+    - name: $RELEASE_FILE
       md5sum: $CHKSUM
 EOF
 
