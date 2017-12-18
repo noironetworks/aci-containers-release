@@ -177,7 +177,7 @@
 # Replace CNI plugin
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_plugin_dir
-  value: /var/vcap/packages/opflex-cni/bin
+  value: /var/vcap/packages/opflex-cni/usr/bin
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_config_dir
   value: /var/vcap/jobs/aci-cf-host-agent/config/cni

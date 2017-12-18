@@ -2,8 +2,7 @@ set -e -x
 
 PKG=aci-cf-controller
 
-for d in `ls $PKG`
+for d in `ls $PKG/*.deb`
 do
-   cp -a $PKG/$d ${BOSH_INSTALL_TARGET}
-   chmod +x ${BOSH_INSTALL_TARGET}/$d
+   dpkg -x $d ${BOSH_INSTALL_TARGET}
 done
