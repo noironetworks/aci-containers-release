@@ -23,10 +23,6 @@ case $1 in
     if [ ! $? -eq 0 ]; then
        echo "agent-ovs package not installed"
 
-       boost_pkg='libboost-system1.54.0 libboost-chrono1.54.0 libboost-filesystem1.54.0 libboost-iostreams1.54.0 libboost-program-options1.54.0 libboost-random1.54.0 libboost-thread1.54.0 libnetfilter-conntrack3 libmnl0'
-       echo "Installing $boost_pkg"
-       apt-get install $boost_pkg
-
        dpkg -i /var/vcap/packages/agent-ovs/*.deb
        service agent-ovs stop
        service mcast-daemon stop

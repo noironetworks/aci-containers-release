@@ -1,4 +1,10 @@
 set -e -x
 
+other_pkg='python-six uuid-runtime'
+
+pushd ${BOSH_INSTALL_TARGET}
+apt-get download $other_pkg
+popd
+
 cp -a ovs_2.6.0/openvswitch-common_2.6.0_amd64.deb ${BOSH_INSTALL_TARGET}
 cp -a ovs_2.6.0/openvswitch-switch_2.6.0_amd64.deb ${BOSH_INSTALL_TARGET}

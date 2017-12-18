@@ -17,10 +17,9 @@ case $1 in
     echo "--- Starting ovs, pid $$ at `date` ---"
     echo "Running as `id`"
     mkdir $LOG_DIR 
-    dpkg -s openvswitch-switch > /dev/null 2> /dev/null
+    dpkg -s openvswitch-switch 2> /dev/null | grep -c 'Status:.*installed' > /dev/null
     if [ ! $? -eq 0 ]; then
        echo "Installing packages"
-       apt-get install python-six uuid-runtime
        dpkg -i /var/vcap/packages/ovs_2.6.0/*.deb
     fi 
    
