@@ -31,7 +31,11 @@ tar -cvzf $PACKAGE -C $STAGE_DIR .
 CHKSUM=$(md5sum $PACKAGE | cut -d' ' -f 1)
 
 COMMIT=$(git rev-parse HEAD)
-BRANCH=$(git branch | grep \* | cut -d ' ' -f2)
+if [ -z "$GIT_BRANCH" ]; then
+   BRANCH=$(git branch | grep \* | cut -d ' ' -f2)
+else
+   BRANCH=$GIT_BRANCH
+fi
 REPO=$(git config --get remote.origin.url)
 cat >> $SPEC_FILE <<EOF
 ---
