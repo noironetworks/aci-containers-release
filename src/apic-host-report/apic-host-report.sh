@@ -86,14 +86,16 @@ mkdir network
   iptables -S > iptables-S
   iptables -S -t nat > iptables-S-t-nat
 
-if [ -d /var/vcap/jobs/$i ]; then
+if [ -d /var/vcap/jobs/agent-ovs ]; then
   prn "  Collecting opflex info ..."
   cd $report_dir
   mkdir opflex
     cd opflex
     ping -c 3 -w 5 10.0.0.30 1>ping-10.0.0.30 2>&1
-    cp -r /var/lib/opflex-agent-ovs opflex-agent-ovs
-    gbp_inspect -fpr -t dump -q DmtreeRoot > dmtree-root
+    cp -r /var/vcap/data/agent-ovs data
+    PKG_DIR=/var/vcap/packages/agent-ovs
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PKG_DIR/usr/lib:$PKG_DIR/usr/lib/x86_64-linux-gnu
+    $PKG_DIR/usr/bin/gbp_inspect -fpr -t dump -q DmtreeRoot > dmtree-root
     ovs-vsctl show > ovs-show
     ovs-ofctl dump-ports-desc br-int > ovs-br-int-ports
     ovs-ofctl dump-ports br-int > ovs-br-int-ports-stats

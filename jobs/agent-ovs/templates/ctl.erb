@@ -1,5 +1,8 @@
 #!/bin/bash
 
+PKG_DIR=/var/vcap/packages/agent-ovs
+JOB_DIR=/var/vcap/jobs/agent-ovs
+DATA_DIR=/var/vcap/data/agent-ovs
 RUN_DIR=/var/vcap/sys/run/agent-ovs
 PIDFILE=${RUN_DIR}/pid
 MCAST_PIDFILE=${RUN_DIR}/mcast.pid
@@ -9,6 +12,7 @@ MCAST_LOG_FILE=$LOG_DIR/mcast-daemon.log
 
 mkdir -p $LOG_DIR
 mkdir -p $RUN_DIR
+mkdir -p $DATA_DIR
 
 exec 2>&1
 exec >> $LOG_FILE
@@ -19,21 +23,23 @@ case $1 in
     echo "--- Starting agent-ovs, pid $$ at `date` ---"
     echo "Running as `id`"
 
-    dpkg -s agent-ovs 2> /dev/null | grep -c 'Status:.*installed' > /dev/null
-    if [ ! $? -eq 0 ]; then
-       echo "agent-ovs package not installed"
+    # Uninstall any old instances of agent-ovs packages
+    dpkg --purge agent-ovs libopflex libmodelgbp
 
-       dpkg -i /var/vcap/packages/agent-ovs/*.deb
-       service agent-ovs stop
-       service mcast-daemon stop
-    fi
+    # create directories used by agent-ovs
+    mkdir -p ${DATA_DIR}/endpoints
+    mkdir -p ${DATA_DIR}/services
+    mkdir -p ${DATA_DIR}/ids
+    mkdir -p ${DATA_DIR}/mcast
+
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PKG_DIR/usr/lib:$PKG_DIR/usr/lib/x86_64-linux-gnu
 
     # Launch mcast-daemon in the backgroud
-    /usr/bin/mcast_daemon 2>&1 >>$MCAST_LOG_FILE &
+    $PKG_DIR/usr/bin/mcast_daemon -d ${DATA_DIR}/mcast 2>&1 >>$MCAST_LOG_FILE &
     echo $! > $MCAST_PIDFILE
 
     echo $$ > $PIDFILE
-    exec /usr/bin/agent_ovs -c /var/vcap/jobs/agent-ovs/config/opflex-agent-ovs.conf \
+    exec $PKG_DIR/usr/bin/agent_ovs -c $JOB_DIR/config/opflex-agent-ovs.conf \
        2>&1 >>$LOG_FILE
 
     ;;
@@ -53,4 +59,3 @@ case $1 in
     echo "Usage: ctl {start|stop}" ;;
 
 esac
-
