@@ -23,10 +23,6 @@
   path: /instance_groups/name=diego-cell/jobs/name=vxlan-policy-agent
 - type: remove
   path: /instance_groups/name=diego-api/jobs/name=silk-controller
-# Limit aci-cf-controller to single instance till we support HA
-- type: replace
-  path: /instance_groups/name=diego-api/instances
-  value: 1
 # Add seeded database for ACI add-ons
 - type: replace
   path: /variables/-
@@ -148,6 +144,10 @@
            host: sql-db.service.cf.internal
            port: 3306
            name: aci_db
+        locket:
+           ca_cert: "((diego_locket_client.ca))"
+           client_cert: "((diego_locket_client.certificate))"
+           client_key: "((diego_locket_client.private_key))"
 # Add aci-cf-controller as UAA client
 - type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/clients/aci-cf-controller?
@@ -171,11 +171,14 @@
            routes:
            - name: networking-aci-api
              port: ((networking_aci_api_port))
-             registration_interval: 20s
+             registration_interval: 10s
              tags:
                component: aci
              uris:
              - api.((system_domain))/networking-aci
+             health_check:
+               name: aci-controller-status
+               script_path: /var/vcap/jobs/aci-cf-controller/bin/health_check
 # Replace CNI plugin
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_plugin_dir

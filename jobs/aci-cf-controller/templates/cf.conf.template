@@ -26,6 +26,13 @@
   "network_policy_api_url": "https://policy-server.service.cf.internal:4003",
   "network_policy_polling_interval_sec": <%= p("network_policy.poll_interval") %>,
 
+  "locket_address": "locket.service.cf.internal:8891",
+  "locket_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/locket/ca.crt",
+  "locket_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/locket/client.crt",
+  "locket_client_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/locket/client.key",
+
+  "uuid": "<%= @spec.name %>/<%= @spec.id %>",
+
   "default_app_profile": "<%= p('apic.default_app_profile') %>",
 
   "app_vip_pool": <%=

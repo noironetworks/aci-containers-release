@@ -3,6 +3,7 @@ name: aci-cf-controller
 
 templates:
    ctl.erb: bin/ctl
+   health_check.erb: bin/health_check
    controller.conf.template: config/controller.conf
    cf.conf.template: config/cf.conf
    apic_user.key.erb: config/certs/apic/user.key
@@ -16,6 +17,9 @@ templates:
    network_policy_ca.crt.erb: config/certs/network_policy/ca.crt
    network_policy_client.crt.erb: config/certs/network_policy/client.crt
    network_policy_client.key.erb: config/certs/network_policy/client.key
+   locket_ca.crt.erb: config/certs/locket/ca.crt
+   locket_client.crt.erb: config/certs/locket/client.crt
+   locket_client.key.erb: config/certs/locket/client.key
 
 packages:
 - aci-cf-controller
@@ -155,3 +159,9 @@ properties:
       description: "Port for database server."
    database.name:
       description: "Name of logical database to use."
+   locket.ca_cert:
+      description: "PEM-encoded CA certificate for Locket."
+   locket.client_cert:
+      description: "PEM-encoded client certificate for Locket."
+   locket.client_key:
+      description: "PEM-encoded client key for Locket."
