@@ -4,4 +4,4 @@ name: opflex-cni
 dependencies: []
 
 files:
-- opflex-cni/opflex-agent-cni_1.2.0~trusty_amd64.deb
+- opflex-cni/opflex-agent-cni_1.8.0~trusty_amd64.deb
