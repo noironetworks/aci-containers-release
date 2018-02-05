@@ -4,7 +4,7 @@ name: agent-ovs
 dependencies: []
 
 files:
-- agent-ovs/libmodelgbp_1.5.0~trusty_amd64.deb
-- agent-ovs/libopflex_1.5.0~trusty_amd64.deb
+- agent-ovs/libmodelgbp_1.6.0~trusty_amd64.deb
+- agent-ovs/libopflex_1.6.0~trusty_amd64.deb
 - agent-ovs/libuv1_1.8.0~trusty_amd64.deb
-- agent-ovs/agent-ovs_1.5.0~trusty_amd64.deb
+- agent-ovs/agent-ovs_1.6.0~trusty_amd64.deb
