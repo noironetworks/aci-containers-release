@@ -7,7 +7,6 @@ templates:
 
 packages:
 - agent-ovs 
-- ovs_2.6.0
 
 properties:
    apic.vmm_policy:

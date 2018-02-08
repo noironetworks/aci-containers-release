@@ -1,5 +1,5 @@
-check process ovs
+check process openvswitch-switch
   with pidfile /var/run/openvswitch/ovs-vswitchd.pid
-  start program = "/var/vcap/jobs/ovs/bin/ctl start" as uid "root" as gid "vcap" with timeout 180 seconds
-  stop program = "/var/vcap/jobs/ovs/bin/ctl stop" as uid "root"
+  start program = "/var/vcap/jobs/openvswitch-switch/bin/ctl start" as uid "root" as gid "vcap" with timeout 180 seconds
+  stop program = "/var/vcap/jobs/openvswitch-switch/bin/ctl stop" as uid "root"
   group vcap

@@ -1,10 +1,13 @@
 ---
-name: ovs
+name: openvswitch-switch
 
 templates:
    ctl.erb: bin/ctl
 
 packages:
-- ovs_2.6.0
+- openvswitch
 
-properties: {}
+properties:
+  network.cf_net_ovs_port:
+     description: "Name of OVS port that will be used for providing CloudFoundry legacy networking"
+     default: "svc-cf-net"

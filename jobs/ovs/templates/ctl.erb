@@ -3,10 +3,24 @@
 OVS_BRIDGE=br-int
 OVS_ACCESS_BRIDGE=br-access
 
-LOG_DIR=/var/vcap/sys/log/ovs
-LOG_FILE=$LOG_DIR/ovs.launch.log
+PKG_DIR=/var/vcap/packages/openvswitch
 
-mkdir -p $LOG_DIR
+export OVS_LOGDIR=/var/vcap/sys/log/openvswitch
+export OVS_SYSCONFDIR=/var/vcap/data
+export OVS_PKGDATADIR=$PKG_DIR/usr/share/openvswitch
+export OVS_BINDIR=$PKG_DIR/usr/bin
+export OVS_SBINDIR=$PKG_DIR/usr/sbin/
+
+export PATH=$PATH:$OVS_BINDIR:$OVS_SBINDIR
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PKG_DIR/usr/lib
+
+LOG_FILE=$OVS_LOGDIR/ovs.launch.log
+
+mkdir -p $OVS_LOGDIR
+mkdir -p /var/run/openvswitch
+mkdir -p $OVS_SYSCONFDIR/openvswitch
+
+CF_NET_OVS_PORT=<%= p('network.cf_net_ovs_port') %>
 
 exec 2>&1
 exec >> $LOG_FILE
@@ -14,26 +28,28 @@ exec >> $LOG_FILE
 case $1 in
 
   start)
-    echo "--- Starting ovs, pid $$ at `date` ---"
+    echo "--- Starting openvswitch daemons, pid $$ at `date` ---"
     echo "Running as `id`"
-    mkdir $LOG_DIR 
-    dpkg -s openvswitch-switch 2> /dev/null | grep -c 'Status:.*installed' > /dev/null
-    if [ ! $? -eq 0 ]; then
-       echo "Installing packages"
-       dpkg -i /var/vcap/packages/ovs_2.6.0/*.deb
-    fi 
-   
-    service openvswitch-switch start
- 
+
+    # Uninstall any old instances of openvswitch packages
+    dpkg --purge python-six uuid-runtime openvswitch-common openvswitch-switch
+
+    $OVS_PKGDATADIR/scripts/ovs-ctl start --system-id=`cat /var/vcap/instance/id`
+
     # Set up OVS bridges
     ovs-vsctl --may-exist add-br $OVS_BRIDGE
     ovs-vsctl --may-exist add-br $OVS_ACCESS_BRIDGE
- 
+
+    # Add OVS port for legacy net
+    ovs-vsctl --may-exist add-port $OVS_BRIDGE $CF_NET_OVS_PORT -- set interface $CF_NET_OVS_PORT type=internal
+    # Enable forwarding for legacy networking
+    sysctl -w net.ipv4.ip_forward=1
+
     ;;
 
   stop)
-    echo "--- Stopping ovs at `date` ---"
-    service openvswitch-switch stop
+    echo "--- Stopping openvswitch daemons at `date` ---"
+    $OVS_PKGDATADIR/scripts/ovs-ctl stop
 
     ;;
 

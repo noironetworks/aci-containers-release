@@ -47,7 +47,7 @@
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/-
   value:
-     name: ovs
+     name: openvswitch-switch
      release: aci-containers
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/-

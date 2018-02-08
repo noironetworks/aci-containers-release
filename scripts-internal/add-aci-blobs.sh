@@ -11,6 +11,6 @@ bosh add-blob ${DIR}/libmodelgbp_1.6.0*~trusty_amd64.deb agent-ovs/libmodelgbp_1
 bosh add-blob ${DIR}/libopflex_1.6.0*~trusty_amd64.deb agent-ovs/libopflex_1.6.0~trusty_amd64.deb
 bosh add-blob ${DIR}/libuv1_1.8.0*~trusty_amd64.deb agent-ovs/libuv1_1.8.0~trusty_amd64.deb
 
-bosh add-blob ${DIR}/openvswitch-common_2.6.0*_amd64.deb ovs_2.6.0/openvswitch-common_2.6.0_amd64.deb
-bosh add-blob ${DIR}/openvswitch-switch_2.6.0*_amd64.deb ovs_2.6.0/openvswitch-switch_2.6.0_amd64.deb
+bosh add-blob ${DIR}/openvswitch-common_2.6.0*_amd64.deb openvswitch/openvswitch-common_2.6.0_amd64.deb
+bosh add-blob ${DIR}/openvswitch-switch_2.6.0*_amd64.deb openvswitch/openvswitch-switch_2.6.0_amd64.deb
 

@@ -61,7 +61,7 @@ cd $report_dir
 mkdir -p var/vcap/jobs
   prn "  Collecting job config files"
   cd var/vcap/jobs
-  for i in aci-cf-controller aci-cf-host-agent agent-ovs ovs network-setup
+  for i in aci-cf-controller aci-cf-host-agent agent-ovs openvswitch-switch network-setup
   do
     if [ -d /var/vcap/jobs/$i/config ]; then
       mkdir $i
@@ -93,9 +93,11 @@ if [ -d /var/vcap/jobs/agent-ovs ]; then
     cd opflex
     ping -c 3 -w 5 10.0.0.30 1>ping-10.0.0.30 2>&1
     cp -r /var/vcap/data/agent-ovs data
-    PKG_DIR=/var/vcap/packages/agent-ovs
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PKG_DIR/usr/lib:$PKG_DIR/usr/lib/x86_64-linux-gnu
-    $PKG_DIR/usr/bin/gbp_inspect -fpr -t dump -q DmtreeRoot > dmtree-root
+    AGENT_PKG_DIR=/var/vcap/packages/agent-ovs
+    OVS_PKG_DIR=/var/vcap/packages/openvswitch
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AGENT_PKG_DIR/usr/lib:$AGENT_PKG_DIR/usr/lib/x86_64-linux-gnu:$OVS_PKG_DIR/usr/lib
+    export PATH=$PATH:$AGENT_PKG_DIR/usr/bin:$OVS_PKG_DIR/usr/bin:$OVS_PKG_DIR/usr/sbin
+    gbp_inspect -fpr -t dump -q DmtreeRoot > dmtree-root
     ovs-vsctl show > ovs-show
     ovs-ofctl dump-ports-desc br-int > ovs-br-int-ports
     ovs-ofctl dump-ports br-int > ovs-br-int-ports-stats
