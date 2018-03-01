@@ -19,7 +19,7 @@ mkdir -p $STAGE_DIR/release
 
 bosh reset-release
 bash scripts-internal/add-aci-blobs.sh $DIST_TMP
-export VERSION=$(git describe --tags)
+export VERSION=$(git describe --tags)-${BUILD_NUMBER:-0}
 export RELEASE_FILE=aci-containers-release-$VERSION.tar.gz
 bosh create-release --version $VERSION --tarball $RELEASE_FILE --force
 CHKSUM=$(md5sum $RELEASE_FILE | cut -d' ' -f 1)
