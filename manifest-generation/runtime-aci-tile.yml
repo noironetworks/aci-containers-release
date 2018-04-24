@@ -29,128 +29,128 @@ property_blueprints:
   configurable: false
 - name: apic_dvs
   type: string
-  default: fab15-vds-1
+#  default: fab15-vds-1
   configurable: yes
 - name: apic_infra_portgroup
   type: string
-  default: pivotal0
+#  default: pivotal0
   configurable: yes
 - name: apic_node_portgroup
   type: string
-  default: pivotal0|cloudfoundry|cf-node
+#  default: pivotal0|cloudfoundry|cf-node
   configurable: yes
 - name: apic_node_subnet
   type: string
-  default: 10.21.0.0/16
+#  default: 10.21.0.0/16
   configurable: yes
 - name: apic_hosts
   type: network_address_list
-  default: '172.28.184.150'
+#  default: '172.28.184.150'
   configurable: true
 - name: apic_username
   type: string
-  default: admin
+#  default: admin
   configurable: true
 - name: apic_app_profile 
   type: string
-  default: cloudfoundry
+#  default: cloudfoundry
   configurable: yes
 - name: apic_vmm_policy
   type: string
-  default: CloudFoundry
+#  default: CloudFoundry
   configurable: true
 - name: apic_vmm_domain
   type: string
-  default: pivotal0
+#  default: pivotal0
   configurable: true
 - name: apic_vmm_controller
   type: string
-  default: pivotal0
+#  default: pivotal0
   configurable: true
 - name: apic_name_prefix
   type: string
-  default: pivotal0
+#  default: pivotal0
   configurable: true
 - name: apic_policy_tenant
   type: string
-  default: pivotal0
+#  default: pivotal0
   configurable: true
 - name: apic_policy_default_epg
   type: string
-  default: cloudfoundry|cf-app-default
+#  default: cloudfoundry|cf-app-default
   configurable: true
 - name: apic_policy_vrf_tenant
   type: string
-  default: common
+#  default: common
   configurable: true
 - name: apic_policy_vrf
   type: string
-  default: l3out_1_vrf
+#  default: l3out_1_vrf
   configurable: true
 - name: apic_l3out
   type: string
-  default: 'l3out-1'
+#  default: 'l3out-1'
   configurable: true
 - name: apic_ext_net
   type: string_list
-  default: l3out_1_net
+#  default: l3out_1_net
   configurable: true
 - name: apic_service_phys_domain
   type: string
-  default: pivotal0-dom
+#  default: pivotal0-dom
   configurable: true
 - name: apic_encap_type
   type: string
-  default: vxlan
+#  default: vxlan
   configurable: true
 - name: apic_service_encap
   type: string
-  default: vlan-4004
+#  default: vlan-4004
   configurable: true
 - name: network_subnet
   type: string
-  default: '10.22.0.1/16'
+#  default: '10.22.0.1/16'
   configurable: true
 - name: network_ip_pool_start
   type: network_address
   configurable: true
-  default: '10.22.0.2'
+#  default: '10.22.0.2'
 - name: network_ip_pool_end
   type: network_address
   configurable: true
-  default: '10.22.255.254'
+#  default: '10.22.255.254'
 - name: network_app_dynamic_ext_ip_pool_start
   type: network_address
   configurable: true
-  default: '150.3.2.2'
+#  default: '150.3.2.2'
 - name: network_app_dynamic_ext_ip_pool_end
   type: network_address
   configurable: true
-  default: '150.3.2.254'
+#  default: '150.3.2.254'
 - name: network_app_static_ext_ip_pool_start
   type: network_address
   configurable: true
-  default: '150.4.2.2'
+#  default: '150.4.2.2'
 - name: network_app_static_ext_ip_pool_end
   type: network_address
   configurable: true
-  default: '150.4.2.254'
+#  default: '150.4.2.254'
 - name: network_node_service_ip_pool_start
   type: network_address
   configurable: true
-  default: '10.25.0.2'
+#  default: '10.25.0.2'
 - name: network_node_service_ip_pool_end
   type: network_address
   configurable: true
-  default: '10.25.0.254' 
+#  default: '10.25.0.254' 
 - name: network_node_service_subnets
   type: string
   configurable: true
-  default: ["10.25.0.1/24"]
+#  default: ["10.25.0.1/24"]
 - name: networking_aci_api_port
   type: port
   configurable: true
-  default: 9900
+#  default: 9900
 - name: build_product
   type: string
   default: PCF
