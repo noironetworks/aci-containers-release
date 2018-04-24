@@ -15,12 +15,11 @@
        },
        "inspector": {
       "enabled": true,
-           "socket-name": "/var/run/opflex-agent-ovs-inspect.sock"
+           "socket-name": "/var/run/opflex-agent-inspect.sock"
        },
        "notif": {
            "enabled": true,
-           "socket-name": "/var/run/opflex-agent-ovs-notif.sock",
-           "socket-group": "opflexep",
+           "socket-name": "/var/run/opflex-agent-notif.sock",
            "socket-permissions": "770"
        }
     },
@@ -31,8 +30,11 @@
     "service-sources": {
         "filesystem": ["/var/vcap/data/agent-ovs/services"]
     },
+    "plugins": {
+        "renderer": ["libopflex_agent_renderer_openvswitch.so"]
+    },
     "renderers": {
-         "stitched-mode": {
+         "openvswitch": {
              "ovs-bridge-name": "br-int",
              "access-bridge-name": "br-access",
 

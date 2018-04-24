@@ -39,7 +39,7 @@ case $1 in
     echo $! > $MCAST_PIDFILE
 
     echo $$ > $PIDFILE
-    exec $PKG_DIR/usr/bin/agent_ovs -c $JOB_DIR/config/opflex-agent-ovs.conf \
+    exec $PKG_DIR/usr/bin/opflex_agent -c $JOB_DIR/config/opflex-agent-ovs.conf \
        2>&1 >>$LOG_FILE
 
     ;;

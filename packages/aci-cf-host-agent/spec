@@ -4,4 +4,4 @@ name: aci-cf-host-agent
 dependencies: []
 
 files:
-- aci-cf-host-agent/aci-containers-host-agent_1.8.0~trusty_amd64.deb
+- aci-cf-host-agent/aci-containers-host-agent_1.9.0~trusty_amd64.deb

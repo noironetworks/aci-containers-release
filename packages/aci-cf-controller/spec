@@ -4,4 +4,4 @@ name: aci-cf-controller
 dependencies: []
 
 files:
-- aci-cf-controller/aci-containers-controller_1.8.0~trusty_amd64.deb
+- aci-cf-controller/aci-containers-controller_1.9.0~trusty_amd64.deb
