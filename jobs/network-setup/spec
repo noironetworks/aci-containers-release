@@ -6,4 +6,7 @@ templates:
 
 packages: []
 
-properties: {}
+properties:
+   apic.infra_vlan:
+      description: "Infra VLAN used by APIC"
+      default: 4093

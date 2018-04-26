@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-INFRA_VLAN=4093
+INFRA_VLAN=<%= p('apic.infra_vlan') %>
 IFACE=eth1
 OPFLEX_IFACE=$IFACE.$INFRA_VLAN
 MTU=1600
@@ -19,6 +19,7 @@ then
    sudo ip link set dev $IFACE up
    sudo ip link set dev $OPFLEX_IFACE up
    sudo ip link set dev $OPFLEX_IFACE mtu $MTU
-   sudo ip route add 224.0.0.0/4 dev $OPFLEX_IFACE
    sudo dhclient -v $OPFLEX_IFACE
 fi
+
+sudo ip route replace 224.0.0.0/4 dev $OPFLEX_IFACE

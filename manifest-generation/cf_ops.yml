@@ -44,6 +44,9 @@
   value:
      name: network-setup
      release: aci-containers
+     properties:
+        apic:
+           infra_vlan: ((apic_infra_vlan))
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/-
   value:
@@ -60,6 +63,7 @@
            vmm_domain: "((apic_vmm_domain))"
            vmm_controller: "((apic_vmm_controller))"
            encap_type: ((apic_encap_type))
+           infra_vlan: ((apic_infra_vlan))
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/-
   value:
