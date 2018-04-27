@@ -8,24 +8,4 @@ templates:
 packages:
 - agent-ovs 
 
-properties:
-   apic.vmm_policy:
-      description: "APIC VMM policy to use"
-      default: "CloudFoundry"
-   apic.vmm_domain:
-      description: "APIC VMM domain to use"
-      default: "cf"
-   apic.vmm_controller:
-      description: "APIC VMM controller to use"
-      default: "cf-cluster"
-   apic.encap_type:
-     description: "Type of encapsulation to use for uplink; either vlan or vxlan"
-     default: vxlan
-   apic.infra_vlan:
-      description: "Infra VLAN used by APIC"
-      default: 4093
-   opflex.interface:
-      description: "Network interface to use for OpFlex communication"
-      default: "eth1" 
-   ovs.encap_interface:
-      description: "OVS interface to use for reaching APIC"
+properties: {}

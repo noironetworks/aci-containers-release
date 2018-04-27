@@ -27,6 +27,7 @@ case $1 in
     dpkg --purge agent-ovs libopflex libmodelgbp
 
     # create directories used by agent-ovs
+    mkdir -p ${DATA_DIR}/conf.d
     mkdir -p ${DATA_DIR}/endpoints
     mkdir -p ${DATA_DIR}/services
     mkdir -p ${DATA_DIR}/ids
@@ -39,8 +40,8 @@ case $1 in
     echo $! > $MCAST_PIDFILE
 
     echo $$ > $PIDFILE
-    exec $PKG_DIR/usr/bin/opflex_agent -c $JOB_DIR/config/opflex-agent-ovs.conf \
-       2>&1 >>$LOG_FILE
+    exec $PKG_DIR/usr/bin/opflex_agent -w -c $JOB_DIR/config/opflex-agent-ovs.conf \
+       -c ${DATA_DIR}/conf.d 2>&1 >>$LOG_FILE
 
     ;;
 

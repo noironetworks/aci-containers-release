@@ -1,17 +1,28 @@
 {
   "log-level": "debug",
+  "node-name": "<%= @spec.name %>-<%= @spec.id %>",
   "cfconfig": "/var/vcap/jobs/aci-cf-host-agent/config/cf.conf",
-  "uplink-iface": "eth1",
+
+  "aci-infra-vlan": <%= p('apic.infra_vlan') %>,
+
   "ovs-db-sock": "/var/run/openvswitch/db.sock",
   "ep-rpc-sock": "/var/run/aci-containers-ep-rpc.sock",
   "ep-rpc-sock-perms": "0770",
+
+  "opflex-config-path": "/var/vcap/data/agent-ovs/conf.d",
   "opflex-endpoint-dir": "/var/vcap/data/agent-ovs/endpoints/",
   "opflex-service-dir": "/var/vcap/data/agent-ovs/services/",
+  "opflex-flowid-cache-dir": "/var/vcap/data/agent-ovs/ids",
+  "opflex-mcast-file": "/var/vcap/data/agent-ovs/mcast/opflex-groups.json",
+
   "status-port": 9990,
+
   "aci-vmm-type": "CloudFoundry",
+  "aci-vmm-domain-type": "CloudFoundry",
   "aci-vmm-domain": "<%= p('apic.vmm_domain') %>",
   "aci-vmm-controller": "<%= p('apic.vmm_controller') %>",
   "encap-type": "<%= p('apic.encap_type') %>",
+
   "aci-vrf": "<%= p('apic.policy_vrf') %>",
   "aci-vrf-tenant": "<%= p('apic.policy_vrf_tenant') %>",
   <%=

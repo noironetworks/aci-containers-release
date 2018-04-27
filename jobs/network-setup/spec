@@ -10,3 +10,6 @@ properties:
    apic.infra_vlan:
       description: "Infra VLAN used by APIC"
       default: 4093
+   network.opflex_interface:
+      description: "Network interface to use for OpFlex communication"
+      default: "eth1"

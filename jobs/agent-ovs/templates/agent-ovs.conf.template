@@ -4,73 +4,11 @@
     },
 
     "opflex": {
-    "domain": "comp/prov-<%= p('apic.vmm_policy') %>/ctrlr-[<%= p('apic.vmm_domain') %>]-<%= p('apic.vmm_controller') %>/sw-InsiemeLSOid",
-       "name": "<%= @spec.name %>-<%= @spec.id %>",
-       "peers": [
-          {"hostname": "10.0.0.30", "port": "8009"}
-        ],
-       "ssl": {
-          "mode": "encrypted",
-          "ca-store": "/etc/ssl/certs/"
-       },
-       "inspector": {
-      "enabled": true,
-           "socket-name": "/var/run/opflex-agent-inspect.sock"
-       },
-       "notif": {
-           "enabled": true,
-           "socket-name": "/var/run/opflex-agent-notif.sock",
-           "socket-permissions": "770"
-       }
-    },
-
-    "endpoint-sources": {
-        "filesystem": ["/var/vcap/data/agent-ovs/endpoints"]
-    },
-    "service-sources": {
-        "filesystem": ["/var/vcap/data/agent-ovs/services"]
-    },
-    "plugins": {
-        "renderer": ["libopflex_agent_renderer_openvswitch.so"]
-    },
-    "renderers": {
-         "openvswitch": {
-             "ovs-bridge-name": "br-int",
-             "access-bridge-name": "br-access",
-
-             "encap": {
-             <%
-                encap_type = p('apic.encap_type')
-                if encap_type == "vxlan"
-             %>
-                 "vxlan" : {
-                     "encap-iface": "<%= p('ovs.encap_interface', 'vxlan0') %>",
-                     "uplink-iface": "<%= p('opflex.interface') %>.<%= p('apic.infra_vlan') %>",
-                     "uplink-vlan": <%= p('apic.infra_vlan') %>,
-                     "remote-ip": "10.0.0.32",
-                     "remote-port": 8472
-                 }
-             <% elsif encap_type == "vlan" %>
-                 "vlan" : {
-                     "encap-iface": "<%= p('opflex.interface') %>"
-                 }
-             <% end %>
-             },
-             "forwarding": {
-                 "virtual-router": {
-                      "enabled": true,
-                      "mac": "00:22:bd:f8:19:ff",
-                          "ipv6": {
-                           "router-advertisement": "false"
-                          }
-                  },
-                  "virtual-dhcp": {
-                      "enabled": "false",
-                      "mac": "00:22:bd:f8:19:ff"
-                  }
-             },
-             "flowid-cache-dir": "/var/vcap/data/agent-ovs/ids",
-             "mcast-group-file": "/var/vcap/data/agent-ovs/mcast/opflex-groups.json"
+        "name": "disabled",
+        "domain": "disabled",
+        "ssl": {
+            "mode": "encrypted",
+            "ca-store": "/etc/ssl/certs/"
         }
     }
 }

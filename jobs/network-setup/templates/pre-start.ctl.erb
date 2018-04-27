@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 INFRA_VLAN=<%= p('apic.infra_vlan') %>
-IFACE=eth1
+IFACE=<%= p('network.opflex_interface') %>
 OPFLEX_IFACE=$IFACE.$INFRA_VLAN
 MTU=1600
 

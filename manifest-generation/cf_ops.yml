@@ -78,6 +78,7 @@
            vmm_domain: "((apic_vmm_domain))"
            vmm_controller: "((apic_vmm_controller))"
            encap_type: ((apic_encap_type))
+           infra_vlan: ((apic_infra_vlan))
            policy_vrf_tenant: "((apic_policy_vrf_tenant))"
            policy_vrf: "((apic_policy_vrf))"
            service_encap: "((apic_service_encap))"
