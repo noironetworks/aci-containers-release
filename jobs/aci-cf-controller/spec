@@ -165,3 +165,6 @@ properties:
       description: "PEM-encoded client certificate for Locket."
    locket.client_key:
       description: "PEM-encoded client key for Locket."
+   product.build_product:
+      description: "Build flag to choose between CF and PCF."
+      default: "CF"

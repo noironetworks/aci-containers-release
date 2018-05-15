@@ -23,7 +23,13 @@
   "network_policy_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/network_policy/ca.crt",
   "network_policy_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/network_policy/client.crt",
   "network_policy_client_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/network_policy/client.key",
+  
+  <% if_p("product.build_product") = "PCF" %> {
+  "network_policy_api_url": "https://network-policy-server.service.cf.internal:4003",
+  <% else %>
   "network_policy_api_url": "https://policy-server.service.cf.internal:4003",
+  <% end %>
+
   "network_policy_polling_interval_sec": <%= p("network_policy.poll_interval") %>,
 
   "locket_address": "locket.service.cf.internal:8891",
