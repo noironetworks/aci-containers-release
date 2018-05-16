@@ -1,6 +1,10 @@
 {
   "cell_id": "<%= @spec.id %>",
   "cell_address": "<%= @spec.ip %>",
+  "controller_address": "<%= p('controller.address') %>",
+  "controller_client_cert_file": "/var/vcap/jobs/aci-cf-host-agent/config/certs/controller/client.crt",
+  "controller_client_key_file": "/var/vcap/jobs/aci-cf-host-agent/config/certs/controller/client.key",
+  "controller_ca_cert_file": "/var/vcap/jobs/aci-cf-host-agent/config/certs/controller/ca.crt",
 
   "etcd_url": "https://cf-etcd.service.cf.internal:4001",
   "etcd_client_cert_file": "/var/vcap/jobs/aci-cf-host-agent/config/certs/etcd/client.crt",

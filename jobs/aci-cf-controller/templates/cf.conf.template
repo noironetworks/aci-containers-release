@@ -1,6 +1,12 @@
 {
   "vmm_policy": "<%= p("apic.vmm_policy") %>",
   "api_path_prefix": "<%= p("api.path_prefix") %>",
+
+  "key_value_port": <%= p("controller.key_value_port") %>,
+  "controller_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/controller/ca.crt",
+  "controller_server_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/controller/server.crt",
+  "controller_server_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/controller/server.key",
+
   "bbs_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/ca.crt",
   "bbs_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/client.crt",
   "bbs_client_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/bbs/client.key",

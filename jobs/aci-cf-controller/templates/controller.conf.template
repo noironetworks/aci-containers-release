@@ -42,5 +42,6 @@
    "node-service-subnets": <%=
       require 'json'
       JSON.pretty_generate(p('network.node_service_subnets'))
-   %>
+   %>,
+   "apic-use-inst-tag": true
 }

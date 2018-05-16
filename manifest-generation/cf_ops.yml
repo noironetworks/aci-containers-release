@@ -29,6 +29,35 @@
   value:
      name: aci_db_admin_password
      type: password
+# Add certificates for controller-to-hostagent communication
+- type: replace
+  path: /variables/-
+  value:
+     name: aci_ca
+     type: certificate
+     options:
+        is_ca: true
+     common_name: ACI_CA
+- type: replace
+  path: /variables/-
+  value:
+     name: aci_cf_controller
+     type: certificate
+     options:
+        ca: aci_ca
+        common_name: aci-cf-controller.service.cf.internal
+        extended_key_usage:
+        - server_auth
+- type: replace
+  path: /variables/-
+  value:
+     name: aci_cf_host_agent
+     type: certificate
+     options:
+        ca: aci_ca
+        common_name: host_agent
+        extended_key_usage:
+        - client_auth
 - type: replace
   path: /instance_groups/name=database/jobs/name=mysql/properties/cf_mysql/mysql/seeded_databases/-
   value:
@@ -74,6 +103,11 @@
            ca_cert: "((etcd_server.ca))"
            client_cert: "((etcd_client.certificate))"
            client_key: "((etcd_client.private_key))"
+        controller:
+           address: aci-cf-controller.service.cf.internal:((key_value_port))
+           ca_cert: "((aci_ca.ca))"
+           client_cert: "((aci_cf_host_agent.certificate))"
+           client_key: "((aci_cf_host_agent.private_key))"
         apic:
            vmm_domain: "((apic_vmm_domain))"
            vmm_controller: "((apic_vmm_controller))"
@@ -126,6 +160,11 @@
            ca_cert: "((uaa_ssl.ca))"
            client_name: "aci-cf-controller"
            client_secret: "((uaa_clients_aci_cf_controller_secret))"
+        controller:
+           key_value_port: ((key_value_port))
+           ca_cert: "((aci_ca.ca))"
+           server_cert: "((aci_cf_controller.certificate))"
+           server_key: "((aci_cf_controller.private_key))"
         bbs:
            ca_cert: "((diego_bbs_client.ca))"
            client_cert: "((diego_bbs_client.certificate))"
@@ -184,6 +223,15 @@
              health_check:
                name: aci-controller-status
                script_path: /var/vcap/jobs/aci-cf-controller/bin/health_check
+# Add DNS name for aci-cf-controller
+- type: replace
+  path: /instance_groups/name=diego-api/jobs/name=consul_agent/properties/consul?/agent?/services?/aci-cf-controller?
+  value:
+     name: aci-cf-controller
+     check:
+        name: aci-controller-status
+        script: /var/vcap/jobs/aci-cf-controller/bin/health_check
+        interval: 5s
 # Replace CNI plugin
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_plugin_dir

@@ -8,6 +8,9 @@ templates:
    cf.conf.template: config/cf.conf
    apic_user.key.erb: config/certs/apic/user.key
    uaa_ca.crt.erb: config/certs/uaa/ca.crt
+   controller_ca.crt.erb: config/certs/controller/ca.crt
+   controller_server.crt.erb: config/certs/controller/server.crt
+   controller_server.key.erb: config/certs/controller/server.key
    bbs_ca.crt.erb: config/certs/bbs/ca.crt
    bbs_client.crt.erb: config/certs/bbs/client.crt
    bbs_client.key.erb: config/certs/bbs/client.key
@@ -111,6 +114,15 @@ properties:
    network.cf_net_ip_address:
       description: "IP address of the interface that will be used for providing CloudFoundry legacy networking"
       default: "169.254.169.254"
+   controller.ca_cert:
+      description: "PEM-encoded CA certificate for controller"
+   controller.server_cert:
+      description: "PEM-encoded server certificate for controller"
+   controller.server_key:
+      description: "PEM-encoded server key for controller"
+   controller.key_value_port:
+      description: "Port at which key-value service is available"
+      default: 9902
    bbs.ca_cert:
       description: "PEM-encoded CA certificate for BBS"
    bbs.client_cert:
