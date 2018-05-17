@@ -47,7 +47,7 @@ module:
     - url: $REPO
       branch: $BRANCH
       commit: $COMMIT
-    packages
+    packages:
     - name: $RELEASE_FILE
       md5sum: $CHKSUM
 EOF
