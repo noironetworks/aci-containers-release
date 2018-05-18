@@ -6,9 +6,6 @@ templates:
    host-agent.conf.template: config/host-agent.conf
    cni.conf.template: config/cni/cni.conf
    cf.conf.template: config/cf.conf
-   etcd_ca.crt.erb: config/certs/etcd/server-ca.crt
-   etcd_client.crt.erb: config/certs/etcd/client.crt
-   etcd_client.key.erb: config/certs/etcd/client.key
    controller_ca.crt.erb: config/certs/controller/ca.crt
    controller_client.crt.erb: config/certs/controller/client.crt
    controller_client.key.erb: config/certs/controller/client.key
@@ -57,9 +54,3 @@ properties:
      description: "PEM-encoded client certificate for connecting to controller"
   controller.client_key:
      description: "PEM-encoded client key for connecting to controller"
-  etcd.ca_cert:
-     description: "PEM-encoded CA certificate for etcd"
-  etcd.client_cert:
-     description: "PEM-encoded client certificate for etcd"
-  etcd.client_key:
-     description: "PEM-encoded client key for etcd"

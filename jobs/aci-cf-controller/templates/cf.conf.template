@@ -21,11 +21,6 @@
   "uaa_client_name": "<%= p("uaa.client_name") %>",
   "uaa_client_secret": "<%= p("uaa.client_secret") %>",
 
-  "etcd_url": "https://cf-etcd.service.cf.internal:4001",
-  "etcd_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/etcd/client.crt",
-  "etcd_client_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/etcd/client.key",
-  "etcd_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/etcd/server-ca.crt",
-
   "network_policy_ca_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/network_policy/ca.crt",
   "network_policy_client_cert_file": "/var/vcap/jobs/aci-cf-controller/config/certs/network_policy/client.crt",
   "network_policy_client_key_file": "/var/vcap/jobs/aci-cf-controller/config/certs/network_policy/client.key",

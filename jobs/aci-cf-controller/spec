@@ -14,9 +14,6 @@ templates:
    bbs_ca.crt.erb: config/certs/bbs/ca.crt
    bbs_client.crt.erb: config/certs/bbs/client.crt
    bbs_client.key.erb: config/certs/bbs/client.key
-   etcd_ca.crt.erb: config/certs/etcd/server-ca.crt
-   etcd_client.crt.erb: config/certs/etcd/client.crt
-   etcd_client.key.erb: config/certs/etcd/client.key
    network_policy_ca.crt.erb: config/certs/network_policy/ca.crt
    network_policy_client.crt.erb: config/certs/network_policy/client.crt
    network_policy_client.key.erb: config/certs/network_policy/client.key
@@ -129,12 +126,6 @@ properties:
       description: "PEM-encoded client certificate for BBS"
    bbs.client_key:
       description: "PEM-encoded client key for BBS"
-   etcd.ca_cert:
-      description: "PEM-encoded CA certificate for etcd"
-   etcd.client_cert:
-      description: "PEM-encoded client certificate for etcd"
-   etcd.client_key:
-      description: "PEM-encoded client key for etcd"
    cc_api.url:
       description: "URL of CloudController API endpoint"
    cc_api.username:
