@@ -6,16 +6,28 @@ if ! [ -x "$(command -v sshpass)" ]; then
 fi
 
 function print_help {
-   echo "Usage: $(basename $0) <host> <username> <password>"
-   echo "  host      Name or IP address of OpsManager"
-   echo "  username  Name of local user on OpsManager with sudo privileges"
-   echo "  password  Password of local user"
+   echo "Usage: $(basename $0) [-u] [-h] <host> <username> <password>"
+   echo
+   echo "Positional parameters"
+   echo "  host        Name or IP address of OpsManager"
+   echo "  username    Name of local user on OpsManager with sudo privileges"
+   echo "  password    Password of local user"
+   echo
+   echo "Options"
+   echo "  -u          Undo the patch"
+   echo "  -h, --help  Display usage"
    exit 0
 }
 
-for var in "$@"; do
-   if [[ $var == "-h" || $var == "--help" ]]; then
+UNDO=0
+for arg do
+   shift
+   if [[ $arg == "-h" || $arg == "--help" ]]; then
       print_help
+   elif [[ $arg == "-u" ]];then
+      UNDO=1
+   else
+      set -- "$@" "$arg"
    fi
 done
 
@@ -35,19 +47,26 @@ sshpass -p "$3" ssh -q $2@$1 "cat > /tmp/aci-patch.diff" <<ENDOFPATCH
          return [] unless job.floating_ips.present?
 
          [
-@@ -219,6 +220,9 @@
+@@ -219,6 +220,11 @@
            extra_env['vapp'] = @installation.infrastructure.vapp_name(@product.identifier)
          end
 
-+        extra_env['bosh'] ||= {}
-+        extra_env['bosh']['ipv6'] = {'enable' => true}
++        if job.template.name == 'diego_cell'
++          extra_env['bosh'] ||= {}
++          extra_env['bosh']['ipv6'] = {'enable' => true}
++        end
 +
          extra_env
        end
      end
 ENDOFPATCH
 
-sshpass -p "$3" ssh -q -t $2@$1 "cd $HOME; echo \"$3\" | sudo -p \"\" -k -S patch -p0 -N -r - -i /tmp/aci-patch.diff"
+if [[ $UNDO -eq 0 ]]; then
+   sshpass -p "$3" ssh -q -t $2@$1 "cd $HOME; echo \"$3\" | sudo -p \"\" -k -S patch -p0 -b -N -r - -i /tmp/aci-patch.diff"
+else
+   sshpass -p "$3" ssh -q -t $2@$1 "cd $HOME; echo \"$3\" | sudo -p \"\" -k -S cp web/app/models/tempest/manifests/product_manifest_generator.rb.orig web/app/models/tempest/manifests/product_manifest_generator.rb"
+fi
+
 if [ $? -eq 0 ];then
    sshpass -p "$3" ssh -q -t $2@$1 "echo \"$3\" | sudo -p \"\" -k -S service tempest-web restart"
 fi
