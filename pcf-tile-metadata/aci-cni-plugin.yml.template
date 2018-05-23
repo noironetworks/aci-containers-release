@@ -1,0 +1,16 @@
+---
+releases:
+- name: aci-containers
+  file: <aci-containers-release-file>
+  version: '<aci-containers-release-version>'
+
+name: aci-cni-plugin-tile
+product_version: '<aci-cni-plugin-tile-version>'
+minimum_version_for_upgrade: '0.0.1'
+label: ACI CNI Plugin
+rank: 1
+service_broker: false
+metadata_version: '2.0'
+original_metadata_version: '2.0'
+description: CNI Plugin tile for ACI integration with CloudFoundry
+serial: true
