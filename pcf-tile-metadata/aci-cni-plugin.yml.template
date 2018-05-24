@@ -4,6 +4,444 @@ releases:
   file: <aci-containers-release-file>
   version: '<aci-containers-release-version>'
 
+
+stemcell_criteria:
+  os: ubuntu-trusty
+  version: '3468.21'
+  default: true
+  enable_patch_security_updates: true
+
+property_blueprints:
+#- name: aci_db_admin_password
+#  type: secret
+#  configurable: false
+#- name: uaa_clients_aci_cf_controller_secret
+#  type: secret
+#  configurable: false
+- name: generated_pas_client_cert
+  type: rsa_cert_credentials
+  configurable: false
+- name: generated_controller_server_cert
+  type: rsa_cert_credentials
+  default:
+    common_name: aci-cf-controller.service.cf.internal
+    domains:
+      - aci-cf-controller.service.cf.internal
+  configurable: false
+- name: generated_host_agent_cert
+  type: rsa_cert_credentials
+  default:
+    common_name: host_agent
+    domains:
+      - host_agent
+  configurable: false
+- name: apic_hosts
+  type: network_address_list
+  configurable: true
+- name: apic_username
+  type: string
+  configurable: true
+- name: apic_private_key
+  type: text
+  configurable: true
+- name: apic_app_profile
+  type: string
+  configurable: yes
+- name: apic_vmm_policy
+  type: string
+  configurable: true
+- name: apic_vmm_domain
+  type: string
+  configurable: true
+- name: apic_vmm_controller
+  type: string
+  configurable: true
+- name: apic_name_prefix
+  type: string
+  configurable: true
+- name: apic_policy_tenant
+  type: string
+  configurable: true
+- name: apic_policy_default_epg
+  type: string
+  configurable: true
+- name: apic_policy_vrf_tenant
+  type: string
+  configurable: true
+- name: apic_policy_vrf
+  type: string
+  configurable: true
+- name: apic_l3out
+  type: string
+  configurable: true
+- name: apic_ext_net
+  type: string_list
+  configurable: true
+- name: apic_service_phys_domain
+  type: string
+  configurable: true
+- name: apic_encap_type
+  type: string
+  configurable: true
+- name: apic_service_encap
+  type: string
+  configurable: true
+- name: network_subnet
+  type: string
+  configurable: true
+- name: network_ip_pool_start
+  type: network_address
+  configurable: true
+- name: network_ip_pool_end
+  type: network_address
+  configurable: true
+- name: network_app_vip_pool_start
+  type: network_address
+  configurable: true
+- name: network_app_vip_pool_end
+  type: network_address
+  configurable: true
+- name: network_app_vip_subnet
+  type: string_list
+  configurable: true
+- name: network_app_dynamic_ext_ip_pool_start
+  type: network_address
+  configurable: true
+- name: network_app_dynamic_ext_ip_pool_end
+  type: network_address
+  configurable: true
+- name: network_app_static_ext_ip_pool_start
+  type: network_address
+  configurable: true
+- name: network_app_static_ext_ip_pool_end
+  type: network_address
+  configurable: true
+- name: network_node_service_ip_pool_start
+  type: network_address
+  configurable: true
+- name: network_node_service_ip_pool_end
+  type: network_address
+  configurable: true
+- name: network_node_service_subnets
+  type: string_list
+  configurable: true
+- name: networking_aci_api_port
+  type: port
+  configurable: true
+- name: apic_infra_vlan
+  type: integer
+  configurable: true
+- name: key_value_port
+  type: integer
+  configurable: true
+
+form_types:
+- name: apic_form
+  label: APIC Parameters
+  description: Cisco Apic Configuration Parameters
+  property_inputs:
+  - reference: ".properties.apic_hosts"
+    label: Apic Hosts
+    description: data_type:network_address_list (comma separated)
+  - reference: ".properties.apic_username"
+    label: Apic Username
+    description: data_type:string
+  - reference: ".properties.apic_private_key"
+    label: Apic private key
+    description: data_type:text
+  - reference: ".properties.apic_app_profile"
+    label: string
+    description: data_type:string
+  - reference: ".properties.apic_vmm_policy"
+    label: Apic Vmm Policy
+    description: data_type:string
+  - reference: ".properties.apic_vmm_domain"
+    label: Apic Vmm Domain
+    description: data_type:string
+  - reference: ".properties.apic_vmm_controller"
+    label: Apic Vmm Controller
+    description: data_type:string
+  - reference: ".properties.apic_name_prefix"
+    label: Apic name prefix
+    description: data_type:string
+  - reference: ".properties.apic_policy_tenant"
+    label: Apic Policy Tenant
+    description: data_type:string
+  - reference: ".properties.apic_policy_default_epg"
+    label: Apic Policy Default EPG
+    description: data_type:string
+  - reference: ".properties.apic_policy_vrf_tenant"
+    label: Apic Policy VRF Tenant
+    description: data_type:string
+  - reference: ".properties.apic_policy_vrf"
+    label: Apic Policy VRF
+    description: data_type:string
+  - reference: ".properties.apic_l3out"
+    label: Apic l3out
+    description: data_type:string
+  - reference: ".properties.apic_ext_net"
+    label: Apic external network
+    description: data_type:string_list
+  - reference: ".properties.apic_service_phys_domain"
+    label: Apic Service Physdomain
+    description: data_type:string
+  - reference: ".properties.apic_encap_type"
+    label: Apic Vmm encap type
+    description: data_type:string
+  - reference: ".properties.apic_service_encap"
+    label: Apic service encap
+    description: data_type:string
+  - reference: ".properties.network_ip_pool_start"
+    label: IP pool start address
+    description: data_type:network_address
+  - reference: ".properties.network_ip_pool_end"
+    label: IP pool end address
+    description: data_type:network_address
+  - reference: ".properties.network_app_vip_pool_start"
+    label: IP pool start address
+    description: data_type:network_address
+  - reference: ".properties.network_app_vip_pool_end"
+    label: IP pool start address
+    description: data_type:network_address
+  - reference: ".properties.network_app_vip_subnet"
+    label: Network node service subnets
+    description: data_type:string_list
+  - reference: ".properties.network_app_dynamic_ext_ip_pool_start"
+    label: IP pool start address
+    description: data_type:network_address
+  - reference: ".properties.network_app_dynamic_ext_ip_pool_end"
+    label: IP pool end address
+    description: data_type:network_address
+  - reference: ".properties.network_app_static_ext_ip_pool_start"
+    label: IP pool start address
+    description: data_type:network_address
+  - reference: ".properties.network_app_static_ext_ip_pool_end"
+    label: IP pool end address
+    description: data_type:network_address
+  - reference: ".properties.network_node_service_ip_pool_start"
+    label: IP pool start address
+    description: data_type:network_address
+  - reference: ".properties.network_node_service_ip_pool_end"
+    label: IP pool end address
+    description: data_type:network_address
+  - reference: ".properties.network_node_service_subnets"
+    label: Network node service subnets
+    description: data_type:string_list
+  - reference: ".properties.networking_aci_api_port"
+    label: Networking ACI Api Port
+    description: data_type:port
+  - reference: ".properties.network_subnet"
+    label: Network Subnet
+    description: data_type:string
+  - reference: ".properties.apic_infra_vlan"
+    label: APIC Infra Vlan
+    description: data_type:integer
+  - reference: ".properties.key_value_port"
+    label: Controller key value port
+    description: data_type:integer
+
+runtime_configs:
+- name: aci-containers-tile
+  runtime_config: |
+    releases:
+    - name: aci-containers
+      version: '<aci-containers-release-version>'
+    addons:
+    - name: external-cni-path-setup-addon
+      jobs:
+      - name: external-cni-path-setup
+        release: aci-containers
+      include:
+        jobs:
+        - name: rep
+          release: diego
+        stemcell:
+        - os: ubuntu-trusty
+    - name: consul-dns-setup-addon
+      jobs:
+      - name: consul-dns-setup
+        release: aci-containers
+      include:
+        jobs:
+        - name: gorouter
+          release: routing
+        stemcell:
+        - os: ubuntu-trusty
+    - name: consul-controller-dns-setup-addon
+      jobs:
+      - name: consul-controller-dns-setup
+        release: aci-containers
+      include:
+        jobs:
+        - name: bbs
+          release: diego
+        stemcell:
+        - os: ubuntu-trusty
+    - name: aci-route-registrar-addon
+      jobs:
+      - name: aci-route-registrar
+        release: aci-containers
+      include:
+        jobs:
+        - name: bbs
+          release: diego
+        stemcell:
+        - os: ubuntu-trusty
+      properties:
+        aci:
+          api_port: (( .properties.networking_aci_api_port.value ))
+          system_domain: (( ..cf.cloud_controller.system_domain.value ))
+    - name: network-setup-addon
+      jobs:
+      - name: network-setup
+        release: aci-containers
+      include:
+        jobs:
+        - name: rep
+          release: diego
+        stemcell:
+        - os: ubuntu-trusty
+      properties:
+        apic:
+          infra_vlan: (( .properties.apic_infra_vlan.value ))
+    - name: openvswitch-switch-addon
+      jobs:
+      - name: openvswitch-switch
+        release: aci-containers
+      include:
+        jobs:
+        - name: rep
+          release: diego
+        stemcell:
+        - os: ubuntu-trusty
+    - name: agent-ovs-addon
+      jobs:
+      - name: agent-ovs
+        release: aci-containers
+      include:
+        jobs:
+        - name: rep
+          release: diego
+        stemcell:
+        - os: ubuntu-trusty
+      properties:
+        apic:
+          vmm_policy: (( .properties.apic_vmm_policy.value ))
+          vmm_domain: (( .properties.apic_vmm_domain.value ))
+          vmm_controller: (( .properties.apic_vmm_controller.value ))
+          encap_type: (( .properties.apic_encap_type.value ))
+          infra_vlan: (( .properties.apic_infra_vlan.value ))
+    - name: aci-cf-host-agent-addon
+      jobs:
+      - name: aci-cf-host-agent
+        release: aci-containers
+      include:
+        jobs:
+        - name: rep
+          release: diego
+        stemcell:
+        - os: ubuntu-trusty
+      properties:
+        apic:
+          vmm_domain: (( .properties.apic_vmm_domain.value ))
+          vmm_controller: (( .properties.apic_vmm_controller.value ))
+          encap_type: (( .properties.apic_encap_type.value ))
+          infra_vlan: (( .properties.apic_infra_vlan.value ))
+          policy_vrf_tenant: (( .properties.apic_policy_vrf_tenant.value ))
+          policy_vrf: (( .properties.apic_policy_vrf.value ))
+          service_encap: (( .properties.apic_service_encap.value ))
+        controller:
+          address: aci-cf-controller.service.cf.internal:(( .properties.key_value_port.value ))
+          ca_cert: (( $ops_manager.ca_certificate ))
+          client_cert: (( .properties.generated_host_agent_cert.cert_pem ))
+          client_key: (( .properties.generated_host_agent_cert.private_key_pem ))
+        network:
+          subnet: (( .properties.network_subnet.value ))
+    - name: aci-cf-controller-addon
+      jobs:
+      - name: aci-cf-controller
+        release: aci-containers
+      include:
+        jobs:
+        - name: bbs
+          release: diego
+        stemcell:
+        - os: ubuntu-trusty
+      properties:
+        api:
+          port: (( .properties.networking_aci_api_port.value ))
+          path_prefix: "/networking-aci"
+        apic:
+          hosts: (( .properties.apic_hosts.parsed_network_addresses ))
+          username: (( .properties.apic_username.value ))
+          user_private_key: (( .properties.apic_private_key.value ))
+          vmm_policy: (( .properties.apic_vmm_policy.value ))
+          vmm_domain: (( .properties.apic_vmm_domain.value ))
+          vmm_controller: (( .properties.apic_vmm_controller.value ))
+          name_prefix: (( .properties.apic_name_prefix.value ))
+          default_app_profile: (( .properties.apic_app_profile.value ))
+          policy_tenant: (( .properties.apic_policy_tenant.value ))
+          policy_default_epg: (( .properties.apic_policy_default_epg.value ))
+          policy_vrf_tenant: (( .properties.apic_policy_vrf_tenant.value ))
+          policy_vrf: (( .properties.apic_policy_vrf.value ))
+          l3out: (( .properties.apic_l3out.value ))
+          l3_ext_networks: (( .properties.apic_ext_net.parsed_strings ))
+          service_phys_domain: (( .properties.apic_service_phys_domain.value ))
+          service_encap: (( .properties.apic_service_encap.value ))
+        bbs:
+          ca_cert: (( $ops_manager.ca_certificate ))
+          client_cert: (( .properties.generated_pas_client_cert.cert_pem ))
+          client_key: (( .properties.generated_pas_client_cert.private_key_pem ))
+        network:
+          subnet: (( .properties.network_subnet.value ))
+          ip_pool:
+          - start: (( .properties.network_ip_pool_start.value ))
+            end: (( .properties.network_ip_pool_end.value ))
+          app_vip_pool:
+          - start: (( .properties.network_app_vip_pool_start.value ))
+            end: (( .properties.network_app_vip_pool_end.value ))
+          app_vip_subnet: (( .properties.network_app_vip_subnet.parsed_strings ))
+          app_external_dynamic_ip_pool:
+          - start: (( .properties.network_app_dynamic_ext_ip_pool_start.value ))
+            end: (( .properties.network_app_dynamic_ext_ip_pool_end.value ))
+          app_external_static_ip_pool:
+          - start: (( .properties.network_app_static_ext_ip_pool_start.value ))
+            end: (( .properties.network_app_static_ext_ip_pool_end.value ))
+          node_service_ip_pool:
+          - start: (( .properties.network_node_service_ip_pool_start.value ))
+            end: (( .properties.network_node_service_ip_pool_end.value ))
+          node_service_subnets: (( .properties.network_node_service_subnets.parsed_strings ))
+        uaa:
+          url: "https://uaa.service.cf.internal:8443"
+          ca_cert: (( $ops_manager.ca_certificate ))
+          client_name: (( ..cf.uaa.container_networking_interface_client_credentials.identity ))
+          client_secret: (( ..cf.uaa.container_networking_interface_client_credentials.password ))
+        cc_api:
+          url: "https://api.(( ..cf.cloud_controller.system_domain.value ))"
+          username: (( ..cf.uaa.admin_credentials.identity ))
+          password: (( ..cf.uaa.admin_credentials.password ))
+        database:
+          type: mysql
+          username: ((( silk-db-credentials.username )))
+          password: ((( silk-db-credentials.password )))
+          host: mysql.service.cf.internal
+          port: 3306
+          name: silk
+        network_policy:
+          ca_cert: (( $ops_manager.ca_certificate ))
+          client_cert: (( .properties.generated_pas_client_cert.cert_pem ))
+          client_key: (( .properties.generated_pas_client_cert.private_key_pem ))
+          api_url: "https://network-policy-server.service.cf.internal:4003"
+        locket:
+          ca_cert: (( $ops_manager.ca_certificate ))
+          client_cert: (( ..cf.cloud_controller.locket_client_cert.cert_pem ))
+          client_key: (( ..cf.cloud_controller.locket_client_cert.private_key_pem ))
+        controller:
+          key_value_port: (( .properties.key_value_port.value ))
+          ca_cert: (( $ops_manager.ca_certificate ))
+          server_cert: (( .properties.generated_controller_server_cert.cert_pem ))
+          server_key: (( .properties.generated_controller_server_cert.private_key_pem ))
+
 name: aci-cni-plugin-tile
 product_version: '<aci-cni-plugin-tile-version>'
 minimum_version_for_upgrade: '0.0.1'
@@ -12,5 +450,6 @@ rank: 1
 service_broker: false
 metadata_version: '2.0'
 original_metadata_version: '2.0'
-description: CNI Plugin tile for ACI integration with CloudFoundry
+description: CNI Plugin tile for ACI integration with Cloudfoundry
 serial: true
+icon_image: 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

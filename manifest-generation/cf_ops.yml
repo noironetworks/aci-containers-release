@@ -173,6 +173,7 @@
            ca_cert: "((network_policy_client.ca))"
            client_cert: "((network_policy_client.certificate))"
            client_key: "((network_policy_client.private_key))"
+           api_url: "https://policy-server.service.cf.internal:4003"
         database:
            type: mysql
            username: aci_db_admin
