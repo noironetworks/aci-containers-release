@@ -150,6 +150,8 @@ properties:
    network_policy.poll_interval:
       description: "Polling interval, in seconds, for Network Policy changes"
       default: 0
+   network_policy.api_url:
+      description: "Network Policy server API URL"
    database.type:
       description: "Type of database. Supported values: mysql."
    database.username:
