@@ -1,0 +1,9 @@
+---
+name: consul-controller-dns-setup 
+
+templates:
+   pre-start.ctl.erb: bin/pre-start
+
+packages: []
+
+properties: {}

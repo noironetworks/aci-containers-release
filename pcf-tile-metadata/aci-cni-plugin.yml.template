@@ -257,9 +257,9 @@ runtime_configs:
           release: diego
         stemcell:
         - os: ubuntu-trusty
-    - name: consul-dns-setup-addon
+    - name: consul-gorouter-dns-setup-addon
       jobs:
-      - name: consul-dns-setup
+      - name: consul-gorouter-dns-setup
         release: aci-containers
       include:
         jobs:

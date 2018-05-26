@@ -1,0 +1,4 @@
+#!/bin/bash -ex
+
+CONTROLLER_DNS_PATCH={\"service\":{\"name\":\"aci-cf-controller\"\,\"check\":{\"name\":\"aci-controller-status\"\,\"script\":\"/var/vcap/jobs/aci-cf-controller/bin/health_check\"\,\"interval\":\"5s\"}\,\"tags\":[]}}
+echo $CONTROLLER_DNS_PATCH > /var/vcap/jobs/consul_agent/config/service-aci-cf-controller.json

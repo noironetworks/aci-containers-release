@@ -1,0 +1,4 @@
+#!/bin/bash -ex
+
+GOROUTER_PATCH={\"service\":{\"name\":\"gorouter\"\,\"check\":{\"name\":\"\"\,\"script\":\"/bin/true\"\,\"interval\":\"5s\"}\,\"tags\":[]}}
+echo $GOROUTER_PATCH > /var/vcap/jobs/consul_agent/config/gorouter.json
