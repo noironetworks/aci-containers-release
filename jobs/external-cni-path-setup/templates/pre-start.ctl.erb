@@ -1,0 +1,13 @@
+#!/bin/bash -ex
+
+if [ ! -f /var/vcap/jobs/cni/config/cni/cni.conf ]
+then
+   mkdir -p /var/vcap/jobs/cni/config/cni
+   ln -s /var/vcap/jobs/aci-cf-host-agent/config/cni/cni.conf /var/vcap/jobs/cni/config/cni/cni.conf
+fi
+
+if [ ! -f /var/vcap/packages/cni/bin/opflex-agent-cni ]
+then
+   mkdir -p /var/vcap/packages/cni/bin
+   ln -s /var/vcap/packages/opflex-cni/usr/bin/opflex-agent-cni /var/vcap/packages/cni/bin/opflex-agent-cni
+fi
