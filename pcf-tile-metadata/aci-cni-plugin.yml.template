@@ -151,7 +151,7 @@ form_types:
     description: PEM encoded private key of user for connecting to APIC
   - reference: ".properties.apic_app_profile"
     label: APIC App Profile
-    description: Application profile in APIC to use for enpoint groups
+    description: Application profile in APIC to use for endpoint groups
   - reference: ".properties.apic_vmm_policy"
     label: APIC VMM Policy
     description: APIC VMM Policy to be used
