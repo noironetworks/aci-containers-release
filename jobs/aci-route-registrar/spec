@@ -1,0 +1,15 @@
+---
+name: aci-route-registrar
+
+templates:
+   pre-start.ctl.erb: bin/pre-start
+   process-json.py: config/process-json.py
+
+packages: []
+
+properties:
+   aci.api_port:
+      description: "Port at which API requests are handled"
+      default: 9900
+   aci.system_domain:
+      description: "PCF PAS installation system domain name where the pushed apps are targeted"
