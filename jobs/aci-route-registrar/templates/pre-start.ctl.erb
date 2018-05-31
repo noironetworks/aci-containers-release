@@ -1,0 +1,6 @@
+#!/bin/bash -ex
+
+API_PORT=<%= p('aci.api_port') %>
+SYSTEM_DOMAIN=<%= p('aci.system_domain') %>
+
+/usr/bin/python /var/vcap/jobs/aci-route-registrar/config/process-json.py $API_PORT $SYSTEM_DOMAIN
