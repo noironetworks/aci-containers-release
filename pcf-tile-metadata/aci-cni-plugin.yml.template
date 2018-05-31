@@ -137,108 +137,108 @@ property_blueprints:
 
 form_types:
 - name: apic_form
-  label: APIC Parameters
-  description: Cisco Apic Configuration Parameters
+  label: ACI APIC Parameters
+  description: Cisco APIC Configuration Parameters
   property_inputs:
   - reference: ".properties.apic_hosts"
-    label: Apic Hosts
-    description: data_type:network_address_list (comma separated)
+    label: Locations of APIC Controllers
+    description: Network address list. Provide comma separated IP addresses 
   - reference: ".properties.apic_username"
-    label: Apic Username
-    description: data_type:string
+    label: APIC Username
+    description: Username for connecting to APIC
   - reference: ".properties.apic_private_key"
-    label: Apic private key
-    description: data_type:text
+    label: APIC Private Key
+    description: PEM encoded private key of user for connecting to APIC
   - reference: ".properties.apic_app_profile"
-    label: string
-    description: data_type:string
+    label: APIC App Profile
+    description: Application profile in APIC to use for enpoint groups
   - reference: ".properties.apic_vmm_policy"
-    label: Apic Vmm Policy
-    description: data_type:string
+    label: APIC VMM Policy
+    description: APIC VMM Policy to be used
   - reference: ".properties.apic_vmm_domain"
-    label: Apic Vmm Domain
-    description: data_type:string
+    label: APIC VMM Domain
+    description: APIC VMM domain to use
   - reference: ".properties.apic_vmm_controller"
-    label: Apic Vmm Controller
-    description: data_type:string
+    label: APIC VMM Controller
+    description: APIC VMM controller to use
   - reference: ".properties.apic_name_prefix"
-    label: Apic name prefix
-    description: data_type:string
+    label: APIC Name Prefix
+    description: String to prefix to APIC object names
   - reference: ".properties.apic_policy_tenant"
-    label: Apic Policy Tenant
-    description: data_type:string
+    label: APIC Policy Tenant
+    description: APIC Tenant to create APIC objects in
   - reference: ".properties.apic_policy_default_epg"
-    label: Apic Policy Default EPG
-    description: data_type:string
+    label: APIC Policy Default EPG
+    description: Default APIC endpoint-group to use for apps
   - reference: ".properties.apic_policy_vrf_tenant"
-    label: Apic Policy VRF Tenant
-    description: data_type:string
+    label: APIC Policy VRF Tenant
+    description: Tenant of VRF in APIC to use
   - reference: ".properties.apic_policy_vrf"
-    label: Apic Policy VRF
-    description: data_type:string
+    label: APIC Policy VRF
+    description: VRF in APIC to use
   - reference: ".properties.apic_l3out"
-    label: Apic l3out
-    description: data_type:string
+    label: APIC l3out
+    description: L3Out in APIC to use for external connectivity
   - reference: ".properties.apic_ext_net"
-    label: Apic external network
-    description: data_type:string_list
+    label: APIC External Network
+    description: External networks in APIC to use for app external IP. Provide comma separated string values
   - reference: ".properties.apic_service_phys_domain"
-    label: Apic Service Physdomain
-    description: data_type:string
+    label: APIC Service Physcal Domain
+    description: Physical domain used for service device clusters
   - reference: ".properties.apic_encap_type"
-    label: Apic Vmm encap type
-    description: data_type:string
+    label: APIC Encap type
+    description: Encapsulation type (Vlan/VxLan) to use for container traffic 
   - reference: ".properties.apic_service_encap"
-    label: Apic service encap
-    description: data_type:string
+    label: APIC Service Encap
+    description: Vlan ID to use for service traffic
   - reference: ".properties.network_ip_pool_start"
-    label: IP pool start address
-    description: data_type:network_address
+    label: Container Network IP Pool starting address
+    description: IP address pool to use for containers
   - reference: ".properties.network_ip_pool_end"
-    label: IP pool end address
-    description: data_type:network_address
+    label: Container Network IP Pool ending address
+    description: IP address pool to use for containers
   - reference: ".properties.network_app_vip_pool_start"
-    label: IP pool start address
-    description: data_type:network_address
+    label: App VIP Pool starting address
+    description: IP address pool to use for app virtual IPs
   - reference: ".properties.network_app_vip_pool_end"
-    label: IP pool start address
-    description: data_type:network_address
+    label: App VIP Pool ending address
+    description: IP address pool to use for app virtual IPs
   - reference: ".properties.network_app_vip_subnet"
-    label: Network node service subnets
-    description: data_type:string_list
+    label: App VIP subnet list
+    description: Subnet CIDRs that cover all app virtual IP pools. Provide a list of comma separated CIDRs
   - reference: ".properties.network_app_dynamic_ext_ip_pool_start"
-    label: IP pool start address
-    description: data_type:network_address
+    label: App External dynamic IP pool starting address
+    description: IP address pool to use for dynamically assigned app external IPs
   - reference: ".properties.network_app_dynamic_ext_ip_pool_end"
-    label: IP pool end address
-    description: data_type:network_address
+    label: App External dynamic IP pool ending address
+    description: IP address pool to use for dynamically assigned app external IPs
   - reference: ".properties.network_app_static_ext_ip_pool_start"
-    label: IP pool start address
-    description: data_type:network_address
+    label: App External Static IP pool starting address
+    description: IP address pool to use for statically assigned app external IPs
   - reference: ".properties.network_app_static_ext_ip_pool_end"
-    label: IP pool end address
-    description: data_type:network_address
+    label: App External Static IP pool ending address
+    description: IP address pool to use for statically assigned app external IPs
   - reference: ".properties.network_node_service_ip_pool_start"
-    label: IP pool start address
-    description: data_type:network_address
+    label: Service IP pool start address
+    description: IP address pool to use for cells to support app external IP
   - reference: ".properties.network_node_service_ip_pool_end"
-    label: IP pool end address
-    description: data_type:network_address
+    label: Service IP pool end address
+    description: IP address pool to use for cells to support app external IP
   - reference: ".properties.network_node_service_subnets"
-    label: Network node service subnets
-    description: data_type:string_list
+    label: Node Service subnet list
+    description: Subnet gateway/CIDRs that cover all node service IP pools. Provide a list of comma separated CIDRs
   - reference: ".properties.networking_aci_api_port"
-    label: Networking ACI Api Port
-    description: data_type:port
+    label: ACI Networking API Port
+    description: Port at which API requests are handled
   - reference: ".properties.network_subnet"
-    label: Network Subnet
-    description: data_type:string
+    label: Network Subnet for Container Network
+    description: Subnet CIDR for container network in the form <gateway-address>/<prefix-length>
   - reference: ".properties.apic_infra_vlan"
     label: APIC Infra Vlan
-    description: data_type:integer
+    description: Infra VLAN used by APIC
   - reference: ".properties.key_value_port"
-    label: Controller key value port
-    description: data_type:integer
+    label: ACI Controller Key Value port
+    description: ACI Controller internal services commmunicate via this port
 
 runtime_configs:
 - name: aci-containers-tile
