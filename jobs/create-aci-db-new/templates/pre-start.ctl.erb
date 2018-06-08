@@ -1,0 +1,17 @@
+#!/bin/bash -ex
+
+DB_NAME=<%= p('database.name') %>
+DB_USERNAME=<%= p('database.username') %>
+DB_PASSWORD=<%= p('database.password') %>
+DB_CONFIG_FILE="/var/vcap/jobs/mysql/config/mariadb_ctl_config.yml"
+
+cat > /tmp/data.txt <<EOF
+
+  - DBName: $DB_NAME
+    User: $DB_USERNAME
+    Password: $DB_PASSWORD
+EOF
+
+if ! grep -q 'aci_db' $DB_CONFIG_FILE; then
+   sed -i '/PreseededDatabases/ r /tmp/data.txt' "$DB_CONFIG_FILE"
+fi
