@@ -1,0 +1,19 @@
+#!/bin/bash -ex
+
+DB_NAME=<%= p('database.name') %>
+DB_USERNAME=<%= p('database.username') %>
+DB_PASSWORD=<%= p('database.password') %>
+DB_CONFIG_FILE="/var/vcap/jobs/mysql/config/mariadb_ctl_config.yml"
+
+L1="- DBName: $DB_NAME"
+L2="User: $DB_USERNAME"
+L3="Password: $DB_PASSWORD"
+
+
+if ! grep  $DB_NAME $DB_CONFIG_FILE; then
+   sed -i "/PreseededDatabases/ a \ \ \ $L3" "$DB_CONFIG_FILE"
+   sed -i "/PreseededDatabases/ a \ \ \ $L2" "$DB_CONFIG_FILE"
+   sed -i "/PreseededDatabases/ a \ \ $L1" "$DB_CONFIG_FILE"
+   sed -i '/PreseededDatabases/{G;}' "$DB_CONFIG_FILE"
+fi
+

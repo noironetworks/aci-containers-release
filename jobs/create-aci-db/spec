@@ -1,0 +1,17 @@
+---
+name: create-aci-db 
+
+templates:
+   pre-start.ctl.erb: bin/pre-start
+
+packages: []
+
+properties:
+   database.name:
+      description: "Name of the database which will be used by ACI controller"
+      default: aci_db
+   database.username:
+      description: "Username for connecting to the ACI database"
+      default: aci_db_admin
+   database.password:
+      description: "Password for connecting to the ACI database"

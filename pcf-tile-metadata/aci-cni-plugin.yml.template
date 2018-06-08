@@ -12,9 +12,9 @@ stemcell_criteria:
   enable_patch_security_updates: true
 
 property_blueprints:
-#- name: aci_db_admin_password
-#  type: secret
-#  configurable: false
+- name: aci_db_admin_password
+  type: secret
+  configurable: false
 #- name: uaa_clients_aci_cf_controller_secret
 #  type: secret
 #  configurable: false
@@ -24,14 +24,12 @@ property_blueprints:
 - name: generated_controller_server_cert
   type: rsa_cert_credentials
   default:
-    common_name: aci-cf-controller.service.cf.internal
     domains:
       - aci-cf-controller.service.cf.internal
   configurable: false
 - name: generated_host_agent_cert
   type: rsa_cert_credentials
   default:
-    common_name: host_agent
     domains:
       - host_agent
   configurable: false
@@ -247,6 +245,21 @@ runtime_configs:
     - name: aci-containers
       version: '<aci-containers-release-version>'
     addons:
+    - name: create-aci-db-addon
+      jobs:
+      - name: create-aci-db
+        release: aci-containers
+      include:
+        jobs:
+        - name: mysql
+          release: cf-mysql
+        stemcell:
+        - os: ubuntu-trusty
+      properties:
+        database:
+          name: aci_db
+          username: aci_db_admin
+          password: (( .properties.aci_db_admin_password.value ))
     - name: external-cni-path-setup-addon
       jobs:
       - name: external-cni-path-setup
@@ -422,11 +435,11 @@ runtime_configs:
           password: (( ..cf.uaa.admin_credentials.password ))
         database:
           type: mysql
-          username: ((( silk-db-credentials.username )))
-          password: ((( silk-db-credentials.password )))
+          username: aci_db_admin
+          password: (( .properties.aci_db_admin_password.value ))
           host: mysql.service.cf.internal
           port: 3306
-          name: silk
+          name: aci_db
         network_policy:
           ca_cert: (( $ops_manager.ca_certificate ))
           client_cert: (( .properties.generated_pas_client_cert.cert_pem ))
