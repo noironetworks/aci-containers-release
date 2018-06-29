@@ -1,0 +1,20 @@
+---
+name: aci-uaa-client
+
+templates:
+   pre-start.ctl.erb: bin/pre-start
+
+packages: []
+
+properties:
+   uaa_client.name:
+      description: "UAA Client name of ACI Controller"
+      default: aci-cf-controller
+   uaa_client.authorities:
+      description: "List of authorities that are granted to the UAA Client"
+      default: uaa.resource,cloud_controller.admin_read_only
+   uaa_client.authorized-grant-types:
+      description: "Type of UAA credentials"
+      default: client_credentials
+   uaa_client.secret:
+      description: "ACI Controller UAA client credentials"

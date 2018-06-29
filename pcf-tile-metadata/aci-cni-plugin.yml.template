@@ -15,9 +15,9 @@ property_blueprints:
 - name: aci_db_admin_password
   type: secret
   configurable: false
-#- name: uaa_clients_aci_cf_controller_secret
-#  type: secret
-#  configurable: false
+- name: uaa_clients_aci_cf_controller_secret
+  type: secret
+  configurable: false
 - name: generated_pas_client_cert
   type: rsa_cert_credentials
   configurable: false
@@ -140,7 +140,7 @@ form_types:
   property_inputs:
   - reference: ".properties.apic_hosts"
     label: Locations of APIC Controllers
-    description: Network address list. Provide comma separated IP addresses 
+    description: Network address list. Provide comma separated IP addresses
   - reference: ".properties.apic_username"
     label: APIC Username
     description: Username for connecting to APIC
@@ -185,7 +185,7 @@ form_types:
     description: Physical domain used for service device clusters
   - reference: ".properties.apic_encap_type"
     label: APIC Encap type
-    description: Encapsulation type (Vlan/VxLan) to use for container traffic 
+    description: Encapsulation type (Vlan/VxLan) to use for container traffic
   - reference: ".properties.apic_service_encap"
     label: APIC Service Encap
     description: Vlan ID to use for service traffic
@@ -245,6 +245,22 @@ runtime_configs:
     - name: aci-containers
       version: '<aci-containers-release-version>'
     addons:
+    - name: aci-uaa-client-addon
+      jobs:
+      - name: aci-uaa-client
+        release: aci-containers
+      include:
+        jobs:
+        - name: uaa
+          release: uaa
+        stemcell:
+        - os: ubuntu-trusty
+      properties:
+        uaa_client:
+          name: aci-cf-controller
+          authorities: uaa.resource,cloud_controller.admin_read_only
+          authorized-grant-types: client_credentials
+          secret: (( .properties.uaa_clients_aci_cf_controller_secret.value ))
     - name: create-aci-db-addon
       jobs:
       - name: create-aci-db
@@ -427,8 +443,8 @@ runtime_configs:
         uaa:
           url: "https://uaa.service.cf.internal:8443"
           ca_cert: (( $ops_manager.ca_certificate ))
-          client_name: (( ..cf.uaa.container_networking_interface_client_credentials.identity ))
-          client_secret: (( ..cf.uaa.container_networking_interface_client_credentials.password ))
+          client_name: aci-cf-controller
+          client_secret: (( .properties.uaa_clients_aci_cf_controller_secret.value ))
         cc_api:
           url: "https://api.(( ..cf.cloud_controller.system_domain.value ))"
           username: (( ..cf.uaa.admin_credentials.identity ))

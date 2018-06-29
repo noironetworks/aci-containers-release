@@ -1,0 +1,22 @@
+#!/bin/bash -ex
+
+UAA_CLIENT_NAME=<%= p('uaa_client.name') %>
+UAA_CLIENT_AUTHORITIES=<%= p('uaa_client.authorities') %>
+UAA_CLIENT_GRANT_TYPE=<%= p('uaa_client.authorized-grant-types') %>
+UAA_CLIENT_SECRET=<%= p('uaa_client.secret') %>
+
+UAA_CONFIG_FILE="/var/vcap/jobs/uaa/config/uaa.yml"
+
+L1="authorities: $UAA_CLIENT_AUTHORITIES"
+L2="authorized-grant-types: $UAA_CLIENT_GRANT_TYPE"
+L3="id: $UAA_CLIENT_NAME"
+L4="secret: $UAA_CLIENT_SECRET"
+
+if ! grep  $UAA_CLIENT_NAME $UAA_CONFIG_FILE; then
+   sed -i "/clients:/ a \ \ \ \ \ \ $L4" "$UAA_CONFIG_FILE"
+   sed -i "/clients:/ a \ \ \ \ \ \ $L3" "$UAA_CONFIG_FILE"
+   sed -i "/clients:/ a \ \ \ \ \ \ $L2" "$UAA_CONFIG_FILE"
+   sed -i "/clients:/ a \ \ \ \ \ \ $L1" "$UAA_CONFIG_FILE"
+   sed -i "/clients:/ a \ \ \ \ $UAA_CLIENT_NAME:" "$UAA_CONFIG_FILE"
+fi
+
