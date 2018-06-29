@@ -16,7 +16,10 @@ dictControllerRoute['registration_interval'] = '10s'
 dictControllerRoute['tags'] = {}
 dictControllerRoute['tags']['component'] = 'aci'
 dictControllerRoute['uris'] = []
-dictControllerRoute['uris'].append(SystemDomain+'/networking-aci')
+dictControllerRoute['uris'].append('api.'+SystemDomain+'/networking-aci')
+dictControllerRoute['health_check'] = {}
+dictControllerRoute['health_check']['name'] = 'aci-controller-status'
+dictControllerRoute['health_check']['script_path'] = '/var/vcap/jobs/aci-cf-controller/bin/health_check'
 
 
 if not (any(d['name'] == 'networking-aci-api' for d in dictRoute['routes'])):
