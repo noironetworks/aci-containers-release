@@ -43,7 +43,7 @@ sshpass -p "$3" ssh -q $2@$1 "cat > /tmp/aci-patch.diff" <<ENDOFPATCH
        end
 
        def vip_network(job)
-+        return [{'name' => 'apic-infra'}] if job.template.name == 'diego_cell' || job.template.name == 'isolated_diego_cell'
++        return [{'name' => 'apic-infra'}] if job.template.name == 'diego_cell' || job.template.name == 'isolated_diego_cell
          return [] unless job.floating_ips.present?
 
          [
