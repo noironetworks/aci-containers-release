@@ -20,6 +20,8 @@
 - type: remove
   path: /instance_groups/name=diego-cell/jobs/name=silk-daemon
 - type: remove
+  path: /instance_groups/name=diego-cell/jobs/name=silk-cni
+- type: remove
   path: /instance_groups/name=diego-cell/jobs/name=vxlan-policy-agent
 - type: remove
   path: /instance_groups/name=diego-api/jobs/name=silk-controller
@@ -231,6 +233,12 @@
   value: /var/vcap/packages/opflex-cni/usr/bin
 - type: replace
   path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cf_networking?/cni_config_dir
+  value: /var/vcap/jobs/aci-cf-host-agent/config/cni
+- type: replace
+  path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cni_plugin_dir
+  value: /var/vcap/packages/opflex-cni/usr/bin
+- type: replace
+  path: /instance_groups/name=diego-cell/jobs/name=garden-cni/properties?/cni_config_dir
   value: /var/vcap/jobs/aci-cf-host-agent/config/cni
 # Add Consul DNS name to the tcp-router instance group
 - type: replace
