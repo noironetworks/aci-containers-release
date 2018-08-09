@@ -18,13 +18,13 @@
   value: true
 # remove default c2c networking components
 - type: remove
-  path: /instance_groups/name=diego-cell/jobs/name=silk-daemon
+  path: /instance_groups/name=diego-cell/jobs/name=silk-daemon?
 - type: remove
-  path: /instance_groups/name=diego-cell/jobs/name=silk-cni
+  path: /instance_groups/name=diego-cell/jobs/name=silk-cni?
 - type: remove
-  path: /instance_groups/name=diego-cell/jobs/name=vxlan-policy-agent
+  path: /instance_groups/name=diego-cell/jobs/name=vxlan-policy-agent?
 - type: remove
-  path: /instance_groups/name=diego-api/jobs/name=silk-controller
+  path: /instance_groups/name=diego-api/jobs/name=silk-controller?
 # Add seeded database for ACI add-ons
 - type: replace
   path: /variables/-
