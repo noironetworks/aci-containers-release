@@ -6,12 +6,18 @@ import json
 import requests
 import sys
 import yaml
+import warnings
 
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+if sys.version_info[0] >= 3:
+   import urllib3
+   urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+else:
+   import urllib2
 
 #import httplib
 #httplib.HTTPConnection.debuglevel = 1
+
+warnings.filterwarnings('ignore', '.*certificate.*')
 
 HOSTNAME = ""
 ACI_PLUGIN_TILE_TYPE = 'aci-cni-plugin-tile'
